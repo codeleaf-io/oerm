@@ -1,0 +1,34 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.codeleaf.release</groupId>
+        <artifactId>release</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
+    <groupId>io.codeleaf.dal</groupId>
+    <artifactId>dal</artifactId>
+    <version>0.1.0</version>
+
+    <packaging>pom</packaging>
+
+    <name>Data Access Layer Library</name>
+    <description>Library for accessing data</description>
+
+    <modules>
+        <module>types</module>
+        <module>tasks</module>
+    </modules>
+
+    <developers>
+        <developer>
+            <name>Tom Burger</name>
+            <email>tvburger@gmail.com</email>
+            <organization>TVBurger B.V.</organization>
+            <organizationUrl>http://www.tvburger.net/</organizationUrl>
+        </developer>
+    </developers>
+
+</project>
