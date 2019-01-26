@@ -18,8 +18,8 @@
     <description>Library for accessing data</description>
 
     <modules>
+        <module>api</module>
         <module>types</module>
-        <module>tasks</module>
     </modules>
 
     <developers>
