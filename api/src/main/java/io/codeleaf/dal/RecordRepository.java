@@ -22,7 +22,7 @@ public interface RecordRepository extends Repository<RecordWithType, IdentifierW
 
     TaskBuilderFactory<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordWithType> taskBuilders = TaskBuilderFactory.create(repositoryType);
 
-    static TypedRepository<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordWithType> createTyped(RecordRepository recordRepository, String dataType) {
+    static TypedRepository<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordWithType> typeRepository(RecordRepository recordRepository, String dataType) {
         return TypedRepository.create(recordRepository, dataType);
     }
 }

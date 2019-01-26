@@ -19,6 +19,7 @@ public interface ProjectTask<D, F, O> extends ReadTask<D, O> {
             O>
             extends ReadTask.Builder<B, T, D, O> {
 
+        @SuppressWarnings("unchecked")
         default B withProjections(F... projection) {
             Objects.requireNonNull(projection);
             return withProjections(Arrays.asList(projection));

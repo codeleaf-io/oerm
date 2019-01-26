@@ -26,6 +26,7 @@ public final class RetrieveTaskImpl<D, F, V, H> extends AbstractSearchSelectProj
             super(dataType, fieldNameType, fieldValueType, searchHitType);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public Builder<D, F, V, H> withOrder(Ordering<F>... ordering) {
             throw new IllegalStateException("Not allowed when building a RetrieveTask!");

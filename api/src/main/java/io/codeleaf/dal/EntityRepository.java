@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 public interface EntityRepository<E extends Entity> extends Repository<E, Reference<E>, Class<?>, Supplier<?>, Object, E> {
 
     @SuppressWarnings("unchecked")
-    static <E extends Entity> RepositoryType<E, Reference<E>, Class<?>, Supplier<?>, Object, E> createType(Class<E> entityType) {
+    static <E extends Entity> RepositoryType<E, Reference<E>, Class<?>, Supplier<?>, Object, E> createRepositoryType(Class<E> entityType) {
         Objects.requireNonNull(entityType);
         return new RepositoryType<>(
                 entityType,
@@ -20,7 +20,11 @@ public interface EntityRepository<E extends Entity> extends Repository<E, Refere
                 entityType);
     }
 
-    static <E extends Entity, S extends E> TypedRepository<E, Reference<E>, Class<?>, Supplier<?>, Object, E> createTyped(EntityRepository<E> entityRepository, Class<S> dataType) {
+    static <E extends Entity> TaskBuilderFactory<E, Reference<E>, Class<?>, Supplier<?>, Object, E> createTaskBuilderFactory(Class<E> entityType) {
+        return TaskBuilderFactory.create(createRepositoryType(entityType));
+    }
+
+    static <E extends Entity, S extends E> TypedRepository<E, Reference<E>, Class<?>, Supplier<?>, Object, E> typeRepository(EntityRepository<E> entityRepository, Class<S> dataType) {
         if (!entityRepository.getRepositoryType().getDataTypeType().isAssignableFrom(dataType)) {
             throw new IllegalArgumentException();
         }

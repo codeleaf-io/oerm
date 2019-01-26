@@ -25,12 +25,15 @@ public interface SearchTask<D, F, H, O> extends ReadTask<D, O> {
 
         B withFieldNameType(Class<F> fieldNameType);
 
+        @SuppressWarnings("unchecked")
         B withOrder(Ordering<F>... ordering);
 
+        @SuppressWarnings("unchecked")
         default B withAscendingOrder(F fieldName) {
             return withOrder(Ordering.createAsc(fieldName));
         }
 
+        @SuppressWarnings("unchecked")
         default B withDescendingOrder(F fieldName) {
             return withOrder(Ordering.createDesc(fieldName));
         }
