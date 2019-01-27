@@ -1,8 +1,8 @@
 package io.codeleaf.dal.generic.tasks.impl;
 
 import io.codeleaf.common.utils.Types;
-import io.codeleaf.dal.SearchCursor;
 import io.codeleaf.dal.Ordering;
+import io.codeleaf.dal.SearchCursor;
 import io.codeleaf.modeling.selection.Selection;
 
 import java.util.ArrayList;

@@ -1,6 +1,9 @@
 package io.codeleaf.dal.generic;
 
-import io.codeleaf.dal.*;
+import io.codeleaf.dal.SearchCursor;
+import io.codeleaf.dal.SearchCursorAndCount;
+import io.codeleaf.dal.SearchPage;
+import io.codeleaf.dal.SearchPageAndCount;
 import io.codeleaf.modeling.selection.Selection;
 import io.codeleaf.modeling.selection.SelectionBuilder;
 
@@ -39,5 +42,4 @@ public interface Repository<E, K, D, F, V> {
     void update(D dataType, Selection selection, Map<F, V> fields);
 
     void delete(D dataType, K objectId);
-
 }
