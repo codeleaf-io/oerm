@@ -1,7 +1,5 @@
 package io.codeleaf.dal;
 
-import io.codeleaf.dal.types.Entity;
-
 import java.util.Objects;
 
 public final class Ordering<F> {

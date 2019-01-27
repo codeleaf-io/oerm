@@ -1,28 +1,23 @@
 package io.codeleaf.dal;
 
+import io.codeleaf.common.utils.Types;
+import io.codeleaf.dal.generic.Repository;
+import io.codeleaf.dal.generic.RepositoryTypes;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.RecordWithType;
 import io.codeleaf.modeling.data.ValueWithType;
 
-public interface RecordRepository extends Repository<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordWithType> {
+public interface RecordRepository extends Repository<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>> {
 
-    @SuppressWarnings("unchecked")
-    RepositoryType<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordWithType> repositoryType = new RepositoryType<>(
+    RepositoryTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>> GENERIC_TYPES = new RepositoryTypes<>(
             RecordWithType.class,
             IdentifierWithType.class,
             String.class,
             String.class,
-            (Class<ValueWithType<?>>) (Class) ValueWithType.class,
-            RecordWithType.class);
+            Types.cast(ValueWithType.class));
 
     @Override
-    default RepositoryType<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordWithType> getRepositoryType() {
-        return repositoryType;
-    }
-
-    TaskBuilderFactory<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordWithType> taskBuilders = TaskBuilderFactory.create(repositoryType);
-
-    static TypedRepository<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordWithType> typeRepository(RecordRepository recordRepository, String dataType) {
-        return TypedRepository.create(recordRepository, dataType);
+    default RepositoryTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>> getGenericTypes() {
+        return GENERIC_TYPES;
     }
 }

@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>dal-api</artifactId>
+    <name>DAL :: API</name>
 
     <dependencies>
         <dependency>
@@ -30,6 +31,11 @@
             <groupId>io.codeleaf.modeling</groupId>
             <artifactId>modeling-data</artifactId>
             <version>${leaf-modeling.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.codeleaf.common</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>${leaf-common.version}</version>
         </dependency>
     </dependencies>
 

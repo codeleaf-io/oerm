@@ -1,33 +1,28 @@
 package io.codeleaf.dal;
 
+import io.codeleaf.common.utils.MethodReferences;
+import io.codeleaf.common.utils.Types;
+import io.codeleaf.dal.generic.Repository;
+import io.codeleaf.dal.generic.RepositoryTypes;
 import io.codeleaf.dal.types.Entity;
 import io.codeleaf.dal.types.Reference;
 
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public interface EntityRepository<E extends Entity> extends Repository<E, Reference<E>, Class<?>, Supplier<?>, Object, E> {
+public interface EntityRepository<E extends Entity> extends Repository<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> {
 
-    @SuppressWarnings("unchecked")
-    static <E extends Entity> RepositoryType<E, Reference<E>, Class<?>, Supplier<?>, Object, E> createRepositoryType(Class<E> entityType) {
+    default <D extends E> D getFieldNames(Class<D> entityType) {
+        return MethodReferences.createProxy(entityType);
+    }
+
+    static <E extends Entity> RepositoryTypes<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> createRepositoryTypes(Class<E> entityType) {
         Objects.requireNonNull(entityType);
-        return new RepositoryType<>(
+        return new RepositoryTypes<>(
                 entityType,
-                (Class<Reference<E>>) (Class) Reference.class,
-                (Class<Class<?>>) (Class) Class.class,
-                (Class<Supplier<?>>) (Class) Supplier.class,
-                Object.class,
-                entityType);
-    }
-
-    static <E extends Entity> TaskBuilderFactory<E, Reference<E>, Class<?>, Supplier<?>, Object, E> createTaskBuilderFactory(Class<E> entityType) {
-        return TaskBuilderFactory.create(createRepositoryType(entityType));
-    }
-
-    static <E extends Entity, S extends E> TypedRepository<E, Reference<E>, Class<?>, Supplier<?>, Object, E> typeRepository(EntityRepository<E> entityRepository, Class<S> dataType) {
-        if (!entityRepository.getRepositoryType().getDataTypeType().isAssignableFrom(dataType)) {
-            throw new IllegalArgumentException();
-        }
-        return TypedRepository.create(entityRepository, dataType);
+                Types.cast(Reference.class),
+                Types.cast(Class.class),
+                Types.cast(Supplier.class),
+                Object.class);
     }
 }

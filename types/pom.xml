@@ -9,5 +9,6 @@
     </parent>
 
     <artifactId>dal-types</artifactId>
+    <name>DAL :: Types</name>
 
 </project>
