@@ -3,7 +3,6 @@ package io.codeleaf.dal;
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.dal.generic.Repository;
 import io.codeleaf.dal.generic.RepositoryTypes;
-import io.codeleaf.dal.generic.TypedRepository;
 import io.codeleaf.dal.generic.TypedRepositoryImpl;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.RecordWithType;
@@ -23,7 +22,9 @@ public interface RecordRepository extends Repository<RecordWithType, IdentifierW
         return GENERIC_TYPES;
     }
 
-    default TypedRepository<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>> toTypedRepository(String dataType) {
-        return TypedRepositoryImpl.create(this, dataType);
+    default RecordTypedRepository toTypedRepository(String dataType) {
+        return Types.cast(
+                TypedRepositoryImpl.create(this, dataType),
+                RecordTypedRepository.class);
     }
 }

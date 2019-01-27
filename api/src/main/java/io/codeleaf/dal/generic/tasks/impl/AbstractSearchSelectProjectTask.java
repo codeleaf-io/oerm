@@ -74,6 +74,7 @@ public abstract class AbstractSearchSelectProjectTask<D, F, V, H, O> extends Abs
             return Types.cast(this);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public B withOrder(Ordering<F>... ordering) {
             Objects.requireNonNull(ordering);
