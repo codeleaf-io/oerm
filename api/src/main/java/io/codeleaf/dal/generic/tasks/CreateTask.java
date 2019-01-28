@@ -2,10 +2,10 @@ package io.codeleaf.dal.generic.tasks;
 
 public interface CreateTask<K, D> extends WriteTask<D, K> {
 
-    Class<K> getObjectIdType();
+    Class<K> getEntityIdType();
 
     default Class<K> getOutputType() {
-        return getObjectIdType();
+        return getEntityIdType();
     }
 
     interface Builder<
@@ -15,6 +15,6 @@ public interface CreateTask<K, D> extends WriteTask<D, K> {
             D>
             extends WriteTask.Builder<B, T, D, K> {
 
-        B withObjectIdType(Class<K> objectIdType);
+        B withEntityIdType(Class<K> entityIdType);
     }
 }

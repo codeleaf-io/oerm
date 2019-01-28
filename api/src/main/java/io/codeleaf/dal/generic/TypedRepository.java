@@ -17,13 +17,13 @@ public interface TypedRepository<E, K, D, F, V> {
 
     SelectionBuilder<F, V, Selection> getSelectionFactory();
 
-    K create(E object);
+    K create(E entity);
 
     K create(Map<F, V> fields);
 
-    boolean exists(K objectId);
+    boolean exists(K entityId);
 
-    E retrieve(K objectId);
+    E retrieve(K entityId);
 
     E retrieveUnique(Selection selection);
 
@@ -39,9 +39,9 @@ public interface TypedRepository<E, K, D, F, V> {
 
     SearchPageAndCount<E> searchAndCount(Selection selection, long offset, int limit);
 
-    void update(K objectId, E object);
+    void update(K entityId, E entity);
 
     void update(Selection selection, Map<F, V> fields);
 
-    void delete(K objectId);
+    void delete(K entityId);
 }

@@ -7,11 +7,11 @@ import java.util.Objects;
 
 public abstract class AbstractCreateTask<K, D> implements CreateTask<K, D> {
 
-    private final Class<K> objectIdType;
+    private final Class<K> entityIdType;
     private final D dataType;
 
-    protected AbstractCreateTask(Class<K> objectIdType, D dataType) {
-        this.objectIdType = objectIdType;
+    protected AbstractCreateTask(Class<K> entityIdType, D dataType) {
+        this.entityIdType = entityIdType;
         this.dataType = dataType;
     }
 
@@ -21,8 +21,8 @@ public abstract class AbstractCreateTask<K, D> implements CreateTask<K, D> {
     }
 
     @Override
-    public Class<K> getObjectIdType() {
-        return objectIdType;
+    public Class<K> getEntityIdType() {
+        return entityIdType;
     }
 
     public static abstract class Builder<
@@ -32,14 +32,14 @@ public abstract class AbstractCreateTask<K, D> implements CreateTask<K, D> {
             D
             > implements CreateTask.Builder<B, T, K, D> {
 
-        protected Class<K> objectIdType;
+        protected Class<K> entityIdType;
         protected D dataType;
 
         public Builder() {
         }
 
-        public Builder(Class<K> objectIdType, D dataType) {
-            this.objectIdType = objectIdType;
+        public Builder(Class<K> entityIdType, D dataType) {
+            this.entityIdType = entityIdType;
             this.dataType = dataType;
         }
 
@@ -51,14 +51,14 @@ public abstract class AbstractCreateTask<K, D> implements CreateTask<K, D> {
         }
 
         @Override
-        public B withObjectIdType(Class<K> objectIdType) {
-            Objects.requireNonNull(objectIdType);
-            this.objectIdType = objectIdType;
+        public B withEntityIdType(Class<K> entityIdType) {
+            Objects.requireNonNull(entityIdType);
+            this.entityIdType = entityIdType;
             return Types.cast(this);
         }
 
         protected void validate() {
-            if (dataType == null || objectIdType == null) {
+            if (dataType == null || entityIdType == null) {
                 throw new IllegalStateException();
             }
         }

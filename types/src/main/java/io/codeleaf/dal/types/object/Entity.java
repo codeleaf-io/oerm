@@ -1,4 +1,4 @@
-package io.codeleaf.dal.types;
+package io.codeleaf.dal.types.object;
 
 import java.util.List;
 import java.util.Set;

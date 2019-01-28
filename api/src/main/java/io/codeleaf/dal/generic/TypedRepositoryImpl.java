@@ -36,8 +36,8 @@ public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository
     }
 
     @Override
-    public K create(E object) {
-        return repository.create(dataType, object);
+    public K create(E entity) {
+        return repository.create(dataType, entity);
     }
 
     @Override
@@ -46,13 +46,13 @@ public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository
     }
 
     @Override
-    public boolean exists(K objectId) {
-        return repository.exists(dataType, objectId);
+    public boolean exists(K entityId) {
+        return repository.exists(dataType, entityId);
     }
 
     @Override
-    public E retrieve(K objectId) {
-        return repository.retrieve(dataType, objectId);
+    public E retrieve(K entityId) {
+        return repository.retrieve(dataType, entityId);
     }
 
     @Override
@@ -91,8 +91,8 @@ public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository
     }
 
     @Override
-    public void update(K objectId, E object) {
-        repository.update(dataType, objectId, object);
+    public void update(K entityId, E entity) {
+        repository.update(dataType, entityId, entity);
     }
 
     @Override
@@ -101,8 +101,8 @@ public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository
     }
 
     @Override
-    public void delete(K objectId) {
-        repository.delete(dataType, objectId);
+    public void delete(K entityId) {
+        repository.delete(dataType, entityId);
     }
 
     public static <E, K, D, F, V> TypedRepositoryImpl<E, K, D, F, V> create(Repository<E, K, D, F, V> repository, D dataType) {

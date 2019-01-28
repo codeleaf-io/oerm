@@ -3,13 +3,15 @@ package io.codeleaf.dal.generic.tasks.impl;
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.dal.Ordering;
 import io.codeleaf.dal.SearchCursorAndCount;
+import io.codeleaf.dal.generic.tasks.CursorSearchAndCountTask;
 import io.codeleaf.modeling.selection.Selection;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class CursorSearchAndCountTaskImpl<D, F, V, H> extends AbstractCursorSearchTask<D, F, V, H, SearchCursorAndCount<H>> {
+public final class CursorSearchAndCountTaskImpl<D, F, V, H> extends AbstractCursorSearchTask<D, F, V, H, SearchCursorAndCount<H>>
+        implements CursorSearchAndCountTask<D, F, V, H, SearchCursorAndCount<H>> {
 
     private CursorSearchAndCountTaskImpl(int bufferSize, List<F> projection, Class<H> searchHitType, Selection selection, Class<F> fieldNameType, Class<V> fieldValueType, D dataType, List<Ordering<F>> order) {
         super(bufferSize, projection, searchHitType, selection, fieldNameType, fieldValueType, dataType, Types.cast(SearchCursorAndCount.class), order);

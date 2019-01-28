@@ -3,13 +3,15 @@ package io.codeleaf.dal.generic.tasks.impl;
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.dal.Ordering;
 import io.codeleaf.dal.SearchPageAndCount;
+import io.codeleaf.dal.generic.tasks.PageSearchAndCountTask;
 import io.codeleaf.modeling.selection.Selection;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class PageSearchAndCountTaskImpl<D, F, V, H> extends AbstractPageSearchTask<D, F, V, H, SearchPageAndCount<H>> {
+public final class PageSearchAndCountTaskImpl<D, F, V, H> extends AbstractPageSearchTask<D, F, V, H, SearchPageAndCount<H>>
+        implements PageSearchAndCountTask<D, F, V, H, SearchPageAndCount<H>> {
 
     private PageSearchAndCountTaskImpl(long offset, int limit, List<F> projection, Class<H> searchHitType, Selection selection, Class<F> fieldNameType, Class<V> fieldValueType, D dataType, List<Ordering<F>> order) {
         super(offset, limit, projection, searchHitType, selection, fieldNameType, fieldValueType, dataType, Types.cast(SearchPageAndCount.class), order);

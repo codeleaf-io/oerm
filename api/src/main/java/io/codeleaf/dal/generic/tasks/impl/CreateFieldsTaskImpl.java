@@ -13,8 +13,8 @@ public final class CreateFieldsTaskImpl<K, D, F, V> extends AbstractCreateTask<K
     private final Class<V> fieldValueType;
     private final Map<F, V> fields;
 
-    private CreateFieldsTaskImpl(Class<F> fieldNameType, Class<V> fieldValueType, D dataType, Map<F, V> fields, Class<K> objectIdType) {
-        super(objectIdType, dataType);
+    private CreateFieldsTaskImpl(Class<F> fieldNameType, Class<V> fieldValueType, D dataType, Map<F, V> fields, Class<K> entityIdType) {
+        super(entityIdType, dataType);
         this.fieldNameType = fieldNameType;
         this.fieldValueType = fieldValueType;
         this.fields = fields;
@@ -46,8 +46,8 @@ public final class CreateFieldsTaskImpl<K, D, F, V> extends AbstractCreateTask<K
         public Builder() {
         }
 
-        public Builder(Class<K> objectIdType, D dataType, Class<F> fieldNameType, Class<V> fieldValueType) {
-            super(objectIdType, dataType);
+        public Builder(Class<K> entityIdType, D dataType, Class<F> fieldNameType, Class<V> fieldValueType) {
+            super(entityIdType, dataType);
             this.fieldNameType = fieldNameType;
             this.fieldValueType = fieldValueType;
         }
@@ -88,7 +88,7 @@ public final class CreateFieldsTaskImpl<K, D, F, V> extends AbstractCreateTask<K
             validate();
             return new CreateFieldsTaskImpl<>(fieldNameType, fieldValueType, dataType,
                     Collections.unmodifiableMap(new LinkedHashMap<>(fields)),
-                    objectIdType);
+                    entityIdType);
         }
     }
 }

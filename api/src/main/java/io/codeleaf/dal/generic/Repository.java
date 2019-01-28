@@ -15,13 +15,13 @@ public interface Repository<E, K, D, F, V> {
 
     SelectionBuilder<F, V, Selection> getSelectionFactory();
 
-    K create(D dataType, E object);
+    K create(D dataType, E entity);
 
     K create(D dataType, Map<F, V> fields);
 
-    boolean exists(D dataType, K objectId);
+    boolean exists(D dataType, K entityId);
 
-    E retrieve(D dataType, K objectId);
+    E retrieve(D dataType, K entityId);
 
     E retrieveUnique(D dataType, Selection selection);
 
@@ -37,9 +37,9 @@ public interface Repository<E, K, D, F, V> {
 
     SearchPageAndCount<E> searchAndCount(D dataType, Selection selection, long offset, int limit);
 
-    void update(D dataType, K objectId, E object);
+    void update(D dataType, K entityId, E entity);
 
     void update(D dataType, Selection selection, Map<F, V> fields);
 
-    void delete(D dataType, K objectId);
+    void delete(D dataType, K entityId);
 }

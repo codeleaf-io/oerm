@@ -3,8 +3,8 @@ package io.codeleaf.dal.generic;
 import io.codeleaf.modeling.selection.Selection;
 
 @FunctionalInterface
-public interface ObjectIdSelector<D, K> {
+public interface EntityIdSelector<D, K> {
 
-    Selection select(D dataType, K objectId);
+    Selection select(D dataType, K entityId);
 
 }
