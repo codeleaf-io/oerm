@@ -1,0 +1,22 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.codeleaf.oerm</groupId>
+        <artifactId>oerm</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
+    <artifactId>oerm-object</artifactId>
+    <name>OERM :: Object API</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>oerm-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

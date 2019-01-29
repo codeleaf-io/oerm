@@ -3,19 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.codeleaf.dal</groupId>
-        <artifactId>dal</artifactId>
+        <groupId>io.codeleaf.oerm</groupId>
+        <artifactId>oerm</artifactId>
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>dal-api</artifactId>
+    <artifactId>oerm-api</artifactId>
+    <name>OERM :: Core API</name>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>dal-types</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>io.codeleaf.modeling</groupId>
             <artifactId>modeling-task</artifactId>
@@ -27,9 +23,9 @@
             <version>${leaf-modeling.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.codeleaf.modeling</groupId>
-            <artifactId>modeling-data</artifactId>
-            <version>${leaf-modeling.version}</version>
+            <groupId>io.codeleaf.common</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>${leaf-common.version}</version>
         </dependency>
     </dependencies>
 
