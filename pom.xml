@@ -22,6 +22,7 @@
         <module>object</module>
         <module>entity</module>
         <module>record</module>
+        <module>dal</module>
     </modules>
 
     <developers>
