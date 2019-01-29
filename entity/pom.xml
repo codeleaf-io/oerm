@@ -3,18 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.codeleaf.dal</groupId>
-        <artifactId>dal</artifactId>
+        <groupId>io.codeleaf.oerm</groupId>
+        <artifactId>oerm</artifactId>
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>dal-entity</artifactId>
-    <name>DAL :: Entity</name>
+    <artifactId>oerm-entity</artifactId>
+    <name>OERM :: Entity API</name>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dal-api</artifactId>
+            <artifactId>oerm-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

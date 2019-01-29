@@ -3,28 +3,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.codeleaf.dal</groupId>
-        <artifactId>dal</artifactId>
+        <groupId>io.codeleaf.oerm</groupId>
+        <artifactId>oerm</artifactId>
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>dal-dal</artifactId>
-    <name>DAL :: Data Access Layer</name>
+    <artifactId>oerm-dal</artifactId>
+    <name>OERM :: Data Access Layer</name>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dal-object</artifactId>
+            <artifactId>oerm-object</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dal-entity</artifactId>
+            <artifactId>oerm-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dal-record</artifactId>
+            <artifactId>oerm-record</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
