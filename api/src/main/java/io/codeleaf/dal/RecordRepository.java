@@ -4,21 +4,21 @@ import io.codeleaf.common.utils.Types;
 import io.codeleaf.dal.generic.Repository;
 import io.codeleaf.dal.generic.RepositoryTypes;
 import io.codeleaf.dal.generic.TypedRepositoryImpl;
+import io.codeleaf.dal.types.record.EntityRecord;
 import io.codeleaf.modeling.data.IdentifierWithType;
-import io.codeleaf.modeling.data.RecordWithType;
 import io.codeleaf.modeling.data.ValueWithType;
 
-public interface RecordRepository extends Repository<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>> {
+public interface RecordRepository extends Repository<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> {
 
-    RepositoryTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>> GENERIC_TYPES = new RepositoryTypes<>(
-            RecordWithType.class,
+    RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> GENERIC_TYPES = new RepositoryTypes<>(
+            EntityRecord.class,
             IdentifierWithType.class,
             String.class,
             String.class,
             Types.cast(ValueWithType.class));
 
     @Override
-    default RepositoryTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>> getGenericTypes() {
+    default RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> getGenericTypes() {
         return GENERIC_TYPES;
     }
 

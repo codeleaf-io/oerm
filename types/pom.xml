@@ -11,4 +11,12 @@
     <artifactId>dal-types</artifactId>
     <name>DAL :: Types</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.codeleaf.modeling</groupId>
+            <artifactId>modeling-data</artifactId>
+            <version>${leaf-modeling.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
