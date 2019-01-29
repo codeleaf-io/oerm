@@ -19,7 +19,9 @@
 
     <modules>
         <module>api</module>
-        <module>types</module>
+        <module>object</module>
+        <module>entity</module>
+        <module>record</module>
     </modules>
 
     <developers>

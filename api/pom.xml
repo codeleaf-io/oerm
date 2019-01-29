@@ -13,11 +13,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>dal-types</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>io.codeleaf.modeling</groupId>
             <artifactId>modeling-task</artifactId>
             <version>${leaf-modeling.version}</version>
@@ -25,11 +20,6 @@
         <dependency>
             <groupId>io.codeleaf.modeling</groupId>
             <artifactId>modeling-selection</artifactId>
-            <version>${leaf-modeling.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.codeleaf.modeling</groupId>
-            <artifactId>modeling-data</artifactId>
             <version>${leaf-modeling.version}</version>
         </dependency>
         <dependency>
