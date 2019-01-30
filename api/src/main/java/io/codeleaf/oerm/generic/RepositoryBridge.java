@@ -1,13 +1,13 @@
 package io.codeleaf.oerm.generic;
 
+import io.codeleaf.modeling.selection.Selection;
+import io.codeleaf.modeling.selection.SelectionBuilder;
+import io.codeleaf.modeling.task.TaskHandlingException;
 import io.codeleaf.oerm.SearchCursor;
 import io.codeleaf.oerm.SearchCursorAndCount;
 import io.codeleaf.oerm.SearchPage;
 import io.codeleaf.oerm.SearchPageAndCount;
 import io.codeleaf.oerm.generic.tasks.DataTask;
-import io.codeleaf.modeling.selection.Selection;
-import io.codeleaf.modeling.selection.SelectionBuilder;
-import io.codeleaf.modeling.task.TaskHandlingException;
 
 import java.util.Map;
 import java.util.Objects;
@@ -16,23 +16,23 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
 
     private final RepositoryTypes<E, K, D, F, V> genericTypes;
     private final DataTaskHandler<E, K, D, F, V> dataTaskHandler;
-    private final EntityIdSelector<D, K> entityIdSelector;
+    private final EntitySelector<E, K, D> entitySelector;
 
     private RepositoryBridge(
             RepositoryTypes<E, K, D, F, V> genericTypes,
             DataTaskHandler<E, K, D, F, V> dataTaskHandler,
-            EntityIdSelector<D, K> entityIdSelector) {
+            EntitySelector<E, K, D> entitySelector) {
         this.genericTypes = genericTypes;
         this.dataTaskHandler = dataTaskHandler;
-        this.entityIdSelector = entityIdSelector;
+        this.entitySelector = entitySelector;
     }
 
     public DataTaskHandler<E, K, D, F, V> getDataTaskHandler() {
         return dataTaskHandler;
     }
 
-    public EntityIdSelector getEntityIdSelector() {
-        return entityIdSelector;
+    public EntitySelector<E, K, D> getEntitySelector() {
+        return entitySelector;
     }
 
     @Override
@@ -46,9 +46,9 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
     }
 
     @Override
-    public K create(D dataType, E entity) {
+    public K create(E entity) {
         return handleTask(dataTaskHandler.getTaskBuilders().createEntity()
-                .withDataType(dataType)
+                .withDataType(entitySelector.getDataType(entity))
                 .withEntity(entity)
                 .build());
     }
@@ -63,12 +63,12 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
 
     @Override
     public boolean exists(D dataType, K entityId) {
-        return count(dataType, entityIdSelector.select(dataType, entityId)) > 0;
+        return count(dataType, entitySelector.select(dataType, entityId)) > 0;
     }
 
     @Override
     public E retrieve(D dataType, K entityId) {
-        return retrieveUnique(dataType, entityIdSelector.select(dataType, entityId));
+        return retrieveUnique(dataType, entitySelector.select(dataType, entityId));
     }
 
     @Override
@@ -129,10 +129,10 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
     }
 
     @Override
-    public void update(D dataType, K entityId, E entity) {
+    public void update(E entity) {
         handleTask(dataTaskHandler.getTaskBuilders().updateEntity()
-                .withDataType(dataType)
-                .withSelection(entityIdSelector.select(dataType, entityId))
+                .withDataType(entitySelector.getDataType(entity))
+                .withSelection(entitySelector.select(entity))
                 .withEntity(entity)
                 .build());
     }
@@ -150,7 +150,7 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
     public void delete(D dataType, K entityId) {
         handleTask(dataTaskHandler.getTaskBuilders().delete()
                 .withDataType(dataType)
-                .withSelection(entityIdSelector.select(dataType, entityId))
+                .withSelection(entitySelector.select(dataType, entityId))
                 .build());
     }
 
@@ -165,10 +165,10 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
     public static <E, K, D, F, V> RepositoryBridge<E, K, D, F, V> create(
             RepositoryTypes<E, K, D, F, V> genericTypes,
             DataTaskHandler<E, K, D, F, V> dataTaskHandler,
-            EntityIdSelector<D, K> entityIdSelector) {
+            EntitySelector<E, K, D> entitySelector) {
         Objects.requireNonNull(genericTypes);
         Objects.requireNonNull(dataTaskHandler);
-        Objects.requireNonNull(entityIdSelector);
-        return new RepositoryBridge<>(genericTypes, dataTaskHandler, entityIdSelector);
+        Objects.requireNonNull(entitySelector);
+        return new RepositoryBridge<>(genericTypes, dataTaskHandler, entitySelector);
     }
 }

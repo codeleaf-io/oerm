@@ -1,11 +1,11 @@
 package io.codeleaf.oerm.generic;
 
+import io.codeleaf.modeling.selection.Selection;
+import io.codeleaf.modeling.selection.SelectionBuilder;
 import io.codeleaf.oerm.SearchCursor;
 import io.codeleaf.oerm.SearchCursorAndCount;
 import io.codeleaf.oerm.SearchPage;
 import io.codeleaf.oerm.SearchPageAndCount;
-import io.codeleaf.modeling.selection.Selection;
-import io.codeleaf.modeling.selection.SelectionBuilder;
 
 import java.util.Map;
 import java.util.Objects;
@@ -37,7 +37,7 @@ public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository
 
     @Override
     public K create(E entity) {
-        return repository.create(dataType, entity);
+        return repository.create(entity);
     }
 
     @Override
@@ -91,8 +91,8 @@ public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository
     }
 
     @Override
-    public void update(K entityId, E entity) {
-        repository.update(dataType, entityId, entity);
+    public void update(E entity) {
+        repository.update(entity);
     }
 
     @Override

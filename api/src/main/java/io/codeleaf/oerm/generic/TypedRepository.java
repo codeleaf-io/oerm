@@ -1,11 +1,11 @@
 package io.codeleaf.oerm.generic;
 
+import io.codeleaf.modeling.selection.Selection;
+import io.codeleaf.modeling.selection.SelectionBuilder;
 import io.codeleaf.oerm.SearchCursor;
 import io.codeleaf.oerm.SearchCursorAndCount;
 import io.codeleaf.oerm.SearchPage;
 import io.codeleaf.oerm.SearchPageAndCount;
-import io.codeleaf.modeling.selection.Selection;
-import io.codeleaf.modeling.selection.SelectionBuilder;
 
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public interface TypedRepository<E, K, D, F, V> {
 
     SearchPageAndCount<E> searchAndCount(Selection selection, long offset, int limit);
 
-    void update(K entityId, E entity);
+    void update(E entity);
 
     void update(Selection selection, Map<F, V> fields);
 

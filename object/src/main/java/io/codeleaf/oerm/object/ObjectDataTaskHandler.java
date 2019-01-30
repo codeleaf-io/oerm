@@ -15,7 +15,7 @@ public interface ObjectDataTaskHandler<E extends Entity> extends DataTaskHandler
 
     default ObjectRepository<E> toRepository() {
         return Types.cast(
-                RepositoryBridge.create(getGenericTypes(), this, ObjectIdSelector.get()),
+                RepositoryBridge.create(getGenericTypes(), this, ObjectSelector.get()),
                 Types.cast(ObjectRepository.class));
     }
 }
