@@ -1,5 +1,9 @@
 package io.codeleaf.oerm.dal;
 
+import io.codeleaf.oerm.dal.impl.DataGovernor;
+import io.codeleaf.oerm.dal.impl.DataProvider;
+import io.codeleaf.oerm.dal.impl.EntityObjectDataTaskHandler;
+import io.codeleaf.oerm.dal.store.InMemoryRecordStore;
 import io.codeleaf.oerm.entity.EntityDataTaskHandler;
 import io.codeleaf.oerm.entity.EntityRepository;
 import io.codeleaf.oerm.entity.EntityTypedRepository;
@@ -10,36 +14,50 @@ import io.codeleaf.oerm.object.ObjectTypedRepository;
 
 import java.util.Objects;
 
-public interface DataAccessProvider {
+public final class DataAccessProvider {
 
-    default ObjectDataTaskHandler<Entity> getObjectDataHandler() {
-        return getObjectDataHandler(Entity.class);
+    private final ObjectDataTaskHandler objectHandler;
+    private final EntityDataTaskHandler entityHandler;
+
+    private DataAccessProvider(ObjectDataTaskHandler objectHandler, EntityDataTaskHandler entityHandler) {
+        this.objectHandler = objectHandler;
+        this.entityHandler = entityHandler;
     }
 
-    <E extends Entity> ObjectDataTaskHandler<E> getObjectDataHandler(Class<E> entityType);
-
-    default ObjectRepository<Entity> getObjectRepository() {
-        return getObjectRepository(Entity.class);
+    public ObjectDataTaskHandler getObjectDataHandler() {
+        return objectHandler;
     }
 
-    default <E extends Entity> ObjectRepository<E> getObjectRepository(Class<E> entityType) {
+    public ObjectRepository getObjectRepository() {
+        return getObjectDataHandler().toRepository();
+    }
+
+    public <E extends Entity> ObjectTypedRepository<E> getObjectTypedRepository(Class<E> entityType) {
         Objects.requireNonNull(entityType);
-        return getObjectDataHandler(entityType).toRepository();
+        return getObjectRepository().toTypedRepository(entityType);
     }
 
-    default <E extends Entity> ObjectTypedRepository<E> getObjectTypedRepository(Class<E> entityType) {
-        Objects.requireNonNull(entityType);
-        return getObjectRepository(entityType).toTypedRepository(entityType);
+    public EntityDataTaskHandler getEntityDataHandler() {
+        return entityHandler;
     }
 
-    EntityDataTaskHandler getEntityDataHandler();
-
-    default EntityRepository getEntityRepository() {
+    public EntityRepository getEntityRepository() {
         return getEntityDataHandler().toRepository(null);
     }
 
-    default EntityTypedRepository getEntityTypedRepository(String dataType) {
+    public EntityTypedRepository getEntityTypedRepository(String dataType) {
         Objects.requireNonNull(dataType);
         return getEntityRepository().toTypedRepository(dataType);
+    }
+
+    private static final DataAccessProvider INSTANCE = create();
+
+    public static DataAccessProvider get() {
+        return INSTANCE;
+    }
+
+    private static DataAccessProvider create() {
+        EntityDataTaskHandler entityHandler = new DataGovernor(new DataProvider(new InMemoryRecordStore()));
+        return new DataAccessProvider(new EntityObjectDataTaskHandler(entityHandler), entityHandler);
     }
 }

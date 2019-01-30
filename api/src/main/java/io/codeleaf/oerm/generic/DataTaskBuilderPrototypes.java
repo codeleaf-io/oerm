@@ -92,12 +92,10 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V> {
                 getRepositoryTypes().getFieldValueType());
     }
 
-    public UpdateEntityTaskImpl.Builder<E, D, F, V> updateEntity() {
+    public UpdateEntityTaskImpl.Builder<E, D> updateEntity() {
         return new UpdateEntityTaskImpl.Builder<>(
                 getRepositoryTypes().getEntityType(),
-                null,
-                getRepositoryTypes().getFieldNameType(),
-                getRepositoryTypes().getFieldValueType());
+                null);
     }
 
     public static <E, K, D, F, V> DataTaskBuilderPrototypes<E, K, D, F, V> create(RepositoryTypes<E, K, D, F, V> repositoryTypes) {

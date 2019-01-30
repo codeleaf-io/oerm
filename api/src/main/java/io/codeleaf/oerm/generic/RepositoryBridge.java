@@ -132,7 +132,6 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
     public void update(E entity) {
         handleTask(dataTaskHandler.getTaskBuilders().updateEntity()
                 .withDataType(entitySelector.getDataType(entity))
-                .withSelection(entitySelector.select(entity))
                 .withEntity(entity)
                 .build());
     }

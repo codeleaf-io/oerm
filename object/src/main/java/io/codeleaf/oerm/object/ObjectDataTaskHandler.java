@@ -4,18 +4,24 @@ import io.codeleaf.common.utils.MethodReferences;
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.oerm.generic.DataTaskHandler;
 import io.codeleaf.oerm.generic.RepositoryBridge;
+import io.codeleaf.oerm.generic.RepositoryTypes;
 
 import java.util.function.Supplier;
 
-public interface ObjectDataTaskHandler<E extends Entity> extends DataTaskHandler<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> {
+public interface ObjectDataTaskHandler extends DataTaskHandler<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object> {
 
-    default <D extends E> D getFieldNames(Class<D> entityType) {
+    @Override
+    default RepositoryTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object> getGenericTypes() {
+        return ObjectRepository.GENERIC_TYPES;
+    }
+
+    default <D extends Entity> D getFieldNames(Class<D> entityType) {
         return MethodReferences.createProxy(entityType);
     }
 
-    default ObjectRepository<E> toRepository() {
+    default ObjectRepository toRepository() {
         return Types.cast(
                 RepositoryBridge.create(getGenericTypes(), this, ObjectSelector.get()),
-                Types.cast(ObjectRepository.class));
+                ObjectRepository.class);
     }
 }

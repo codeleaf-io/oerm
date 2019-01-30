@@ -7,31 +7,37 @@ import io.codeleaf.oerm.generic.Repository;
 import io.codeleaf.oerm.generic.RepositoryTypes;
 import io.codeleaf.oerm.generic.TypedRepositoryImpl;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
-public interface ObjectRepository<E extends Entity> extends Repository<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> {
+public interface ObjectRepository extends Repository<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object> {
 
-    default <D extends E> D getFieldNames(Class<D> entityType) {
+    RepositoryTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object> GENERIC_TYPES = new RepositoryTypes<>(
+            Entity.class,
+            Types.cast(Reference.class),
+            Types.cast(Class.class),
+            Types.cast(Supplier.class),
+            Object.class);
+
+    @Override
+    default RepositoryTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object> getGenericTypes() {
+        return GENERIC_TYPES;
+    }
+
+    default <D extends Entity> D getFieldNames(Class<D> entityType) {
         return MethodReferences.createProxy(entityType);
     }
 
-    static <E extends Entity> RepositoryTypes<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> createRepositoryTypes(Class<E> entityType) {
-        Objects.requireNonNull(entityType);
-        return new RepositoryTypes<>(
+    default <E extends Entity> ObjectTypedRepository<E> toTypedRepository(Class<E> entityType) {
+        RepositoryTypes<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> repositoryTypes = new RepositoryTypes<>(
                 entityType,
                 Types.cast(Reference.class),
                 Types.cast(Class.class),
                 Types.cast(Supplier.class),
                 Object.class);
-    }
-
-    default <S extends E> ObjectTypedRepository<S> toTypedRepository(Class<S> entityType) {
-        RepositoryTypes<S, Reference<S>, Class<? extends S>, Supplier<?>, Object> repositoryTypes = createRepositoryTypes(entityType);
-        ObjectRepository<S> objectRepository = Interceptor.create(Types.cast(ObjectRepository.class), this);
-        Interceptor.intercept(objectRepository, "getGenericTypes", null, (args) -> repositoryTypes);
-        return Types.cast(
-                TypedRepositoryImpl.create(objectRepository, entityType),
-                Types.cast(ObjectTypedRepository.class));
+        ObjectTypedRepository<E> interceptor = Interceptor.create(
+                Types.cast(ObjectTypedRepository.class),
+                TypedRepositoryImpl.create(this, entityType));
+        Interceptor.intercept(interceptor, "getGenericTypes", null, (args) -> repositoryTypes);
+        return interceptor;
     }
 }
