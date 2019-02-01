@@ -17,6 +17,11 @@
             <artifactId>oerm-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.codeleaf.modeling</groupId>
+            <artifactId>modeling-data</artifactId>
+            <version>${leaf-modeling.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

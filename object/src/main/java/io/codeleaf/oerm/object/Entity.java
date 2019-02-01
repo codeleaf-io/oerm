@@ -2,15 +2,14 @@ package io.codeleaf.oerm.object;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 public interface Entity {
 
     interface Meta {
 
-        UUID getUUID();
+        java.util.UUID getUUID();
 
-        Class<?> getEntityType();
+        Class<? extends Entity> getEntityType();
 
         Set<Reference<Tenant>> getDataSubjects();
 

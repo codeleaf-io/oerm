@@ -16,10 +16,9 @@ public final class ObjectSelector<E extends Entity> implements EntitySelector<E,
                 .field(MethodReferences.getProxy(Entity.class)::getIdentifier).equalTo(objectId);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Class<? extends E> getDataType(E entity) {
-        return (Class<? extends E>) entity.getMeta().getEntityType();
+        return Types.cast(entity.getMeta().getEntityType());
     }
 
     private static final ObjectSelector<?> INSTANCE = new ObjectSelector<>();

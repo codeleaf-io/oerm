@@ -1,8 +1,6 @@
 package io.codeleaf.oerm.dal;
 
-import io.codeleaf.oerm.dal.impl.DataGovernor;
-import io.codeleaf.oerm.dal.impl.DataProvider;
-import io.codeleaf.oerm.dal.impl.EntityObjectDataTaskHandler;
+import io.codeleaf.oerm.dal.impl.*;
 import io.codeleaf.oerm.dal.store.InMemoryRecordStore;
 import io.codeleaf.oerm.entity.EntityDataTaskHandler;
 import io.codeleaf.oerm.entity.EntityRepository;
@@ -18,10 +16,12 @@ public final class DataAccessProvider {
 
     private final ObjectDataTaskHandler objectHandler;
     private final EntityDataTaskHandler entityHandler;
+    private final DataTypeRegistry dataTypeRegistry;
 
-    private DataAccessProvider(ObjectDataTaskHandler objectHandler, EntityDataTaskHandler entityHandler) {
+    private DataAccessProvider(ObjectDataTaskHandler objectHandler, EntityDataTaskHandler entityHandler, DataTypeRegistry dataTypeRegistry) {
         this.objectHandler = objectHandler;
         this.entityHandler = entityHandler;
+        this.dataTypeRegistry = dataTypeRegistry;
     }
 
     public ObjectDataTaskHandler getObjectDataHandler() {
@@ -50,6 +50,10 @@ public final class DataAccessProvider {
         return getEntityRepository().toTypedRepository(dataType);
     }
 
+    public DataTypeRegistry getDataTypeRegistry() {
+        return dataTypeRegistry;
+    }
+
     private static final DataAccessProvider INSTANCE = create();
 
     public static DataAccessProvider get() {
@@ -58,6 +62,7 @@ public final class DataAccessProvider {
 
     private static DataAccessProvider create() {
         EntityDataTaskHandler entityHandler = new DataGovernor(new DataProvider(new InMemoryRecordStore()));
-        return new DataAccessProvider(new EntityObjectDataTaskHandler(entityHandler), entityHandler);
+        DataTypeRegistry dataTypeRegistry = new DataTypeMapper();
+        return new DataAccessProvider(new EntityObjectDataTaskHandler(entityHandler), entityHandler, dataTypeRegistry);
     }
 }
