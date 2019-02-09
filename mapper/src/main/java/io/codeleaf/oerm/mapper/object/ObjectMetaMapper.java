@@ -1,27 +1,23 @@
-package io.codeleaf.oerm.dal.impl.oem;
+package io.codeleaf.oerm.mapper.object;
 
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.modeling.data.IdentifierWithType;
-import io.codeleaf.oerm.dal.impl.DataTypeMapper;
 import io.codeleaf.oerm.entity.EntityRecord;
+import io.codeleaf.oerm.mapper.entity.EntityMeta;
 import io.codeleaf.oerm.object.Entity;
 import io.codeleaf.oerm.object.Reference;
 import io.codeleaf.oerm.object.Tenant;
+import io.codeleaf.oerm.object.mapping.ObjectMeta;
 
 import java.util.*;
 
-public final class MetaFactory {
+public final class ObjectMetaMapper {
 
-    private final DataTypeMapper dataTypeMapper;
-
-    public MetaFactory(DataTypeMapper dataTypeMapper) {
-        this.dataTypeMapper = dataTypeMapper;
-    }
-
-    public Entity.Meta createObjectMeta(EntityRecord.Meta entityMeta) {
-        return new ObjectMetaImpl(
+    public Entity.Meta mapEntityMeta(EntityRecord.Meta entityMeta) {
+        Objects.requireNonNull(entityMeta);
+        return new ObjectMeta(
                 entityMeta.getUUID(),
-                dataTypeMapper.map(entityMeta.getDataType()),
+                EntityTypes.determineEntityType(entityMeta.getDataType()),
                 mapFromEntity(entityMeta.getDataSubjects()),
                 mapFromEntity(entityMeta.getLegalOwner()),
                 mapFromEntity(entityMeta.getDataSteward()),
@@ -29,7 +25,7 @@ public final class MetaFactory {
     }
 
     private <T extends Entity> Reference<T> mapFromEntity(IdentifierWithType identifierWithType) {
-        Class<?> entityType = dataTypeMapper.map(identifierWithType.getType().getDataType());
+        Class<?> entityType = EntityTypes.determineEntityType(identifierWithType.getType().getDataType());
         if (!Tenant.class.isAssignableFrom(entityType)) {
             throw new IllegalArgumentException();
         }
@@ -53,11 +49,11 @@ public final class MetaFactory {
         return tenants;
     }
 
-    public EntityRecord.Meta createEntityMeta(Entity.Meta objectMeta) {
+    public EntityRecord.Meta mapObjectMeta(Entity.Meta objectMeta) {
         Objects.requireNonNull(objectMeta);
-        return new EntityMetaImpl(
+        return new EntityMeta(
                 objectMeta.getUUID(),
-                dataTypeMapper.map(objectMeta.getEntityType()),
+                EntityTypes.determineDataType(objectMeta.getEntityType()),
                 mapFromObject(objectMeta.getDataSubjects()),
                 mapFromObject(objectMeta.getLegalOwner()),
                 mapFromObject(objectMeta.getDataSteward()),
@@ -66,7 +62,7 @@ public final class MetaFactory {
 
     private IdentifierWithType mapFromObject(Reference<? extends Tenant> reference) {
         String identifier = reference.getIdentifier();
-        String dataType = dataTypeMapper.map(reference.getEntityType());
+        String dataType = EntityTypes.determineDataType(reference.getEntityType());
         return IdentifierWithType.create(identifier, dataType);
     }
 

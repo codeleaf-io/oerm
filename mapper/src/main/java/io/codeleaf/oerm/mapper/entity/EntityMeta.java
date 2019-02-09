@@ -1,4 +1,4 @@
-package io.codeleaf.oerm.dal.impl.oem;
+package io.codeleaf.oerm.mapper.entity;
 
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.oerm.entity.EntityRecord;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public final class EntityMetaImpl implements EntityRecord.Meta {
+public final class EntityMeta implements EntityRecord.Meta {
 
     private final UUID uuid;
     private final String dataType;
@@ -16,7 +16,7 @@ public final class EntityMetaImpl implements EntityRecord.Meta {
     private final IdentifierWithType dataSteward;
     private final List<IdentifierWithType> partition;
 
-    public EntityMetaImpl(UUID uuid, String dataType, Set<IdentifierWithType> dataSubjects, IdentifierWithType legalOwner, IdentifierWithType dataSteward, List<IdentifierWithType> partition) {
+    public EntityMeta(UUID uuid, String dataType, Set<IdentifierWithType> dataSubjects, IdentifierWithType legalOwner, IdentifierWithType dataSteward, List<IdentifierWithType> partition) {
         this.uuid = uuid;
         this.dataType = dataType;
         this.dataSubjects = dataSubjects;

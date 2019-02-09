@@ -1,0 +1,27 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.codeleaf.oerm</groupId>
+        <artifactId>oerm</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
+    <artifactId>oerm-mapper</artifactId>
+    <name>OERM :: Mapper</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>oerm-object</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>oerm-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

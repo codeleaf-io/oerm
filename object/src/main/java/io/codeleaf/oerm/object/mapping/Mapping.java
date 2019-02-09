@@ -8,5 +8,5 @@ import java.lang.annotation.*;
 public @interface Mapping {
     String value() default "";
 
-    Class<? extends EntityFieldMapper> mapper() default DefaultEntityFieldMapper.class;
+    Class<? extends ObjectFieldMapper> mapper() default DefaultObjectFieldMapper.class;
 }

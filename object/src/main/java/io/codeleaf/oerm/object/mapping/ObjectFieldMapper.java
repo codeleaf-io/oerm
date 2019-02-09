@@ -7,9 +7,11 @@ import io.codeleaf.oerm.object.Entity;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-public interface EntityFieldMapper {
+public interface ObjectFieldMapper {
 
-    ValueWithType<?> map(Class<? extends Entity> entityType, Method method, String fieldName, Map<Method, Object> fields);
+    ValueWithType<?> mapObjectField(Class<? extends Entity> entityType, Method method, String fieldName, Map<Method, Object> objectFields);
+
+    Object mapEntityField(Class<? extends Entity> entityType, Method method, String fieldName, Map<String, ValueWithType<?>> entityFields);
 
     ValueType getType(Class<? extends Entity> entityType, Method method, String fieldName);
 

@@ -1,11 +1,11 @@
 package io.codeleaf.oerm.entity;
 
 import io.codeleaf.common.utils.Types;
+import io.codeleaf.modeling.data.IdentifierWithType;
+import io.codeleaf.modeling.data.ValueWithType;
 import io.codeleaf.oerm.generic.Repository;
 import io.codeleaf.oerm.generic.RepositoryTypes;
 import io.codeleaf.oerm.generic.TypedRepositoryImpl;
-import io.codeleaf.modeling.data.IdentifierWithType;
-import io.codeleaf.modeling.data.ValueWithType;
 
 public interface EntityRepository extends Repository<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> {
 
