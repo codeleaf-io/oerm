@@ -15,17 +15,14 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>oerm-object</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>oerm-entity</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>oerm-record</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
