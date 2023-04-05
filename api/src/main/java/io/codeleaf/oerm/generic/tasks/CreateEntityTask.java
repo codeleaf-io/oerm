@@ -1,18 +1,19 @@
 package io.codeleaf.oerm.generic.tasks;
 
-public interface CreateEntityTask<E, K, D>
+public interface CreateEntityTask<K, D, F, V>
         extends
-        WriteEntityTask<E, D, K>,
-        CreateTask<K, D> {
+        WriteFieldsTask<D, F, V, K>,
+        AddTask<K, D> {
 
     interface Builder<
-            B extends Builder<B, T, E, K, D>,
-            T extends CreateEntityTask<E, K, D>,
-            E,
+            B extends Builder<B, T, K, D, F, V>,
+            T extends CreateEntityTask<K, D, F, V>,
             K,
-            D>
+            D,
+            F,
+            V>
             extends
-            WriteEntityTask.Builder<B, T, E, D, K>,
-            CreateTask.Builder<B, T, K, D> {
+            WriteFieldsTask.Builder<B, T, D, F, V, K>,
+            AddTask.Builder<B, T, K, D> {
     }
 }

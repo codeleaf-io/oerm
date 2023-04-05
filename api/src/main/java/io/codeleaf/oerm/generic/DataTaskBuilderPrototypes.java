@@ -4,15 +4,15 @@ import io.codeleaf.oerm.generic.tasks.impl.*;
 
 import java.util.Objects;
 
-public final class DataTaskBuilderPrototypes<E, K, D, F, V> {
+public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
 
-    private final RepositoryTypes<E, K, D, F, V> repositoryTypes;
+    private final RepositoryTypes<E, K, D, F, V, S> repositoryTypes;
 
-    private DataTaskBuilderPrototypes(RepositoryTypes<E, K, D, F, V> repositoryTypes) {
+    private DataTaskBuilderPrototypes(RepositoryTypes<E, K, D, F, V, S> repositoryTypes) {
         this.repositoryTypes = repositoryTypes;
     }
 
-    public RepositoryTypes<E, K, D, F, V> getRepositoryTypes() {
+    public RepositoryTypes<E, K, D, F, V, S> getRepositoryTypes() {
         return repositoryTypes;
     }
 
@@ -23,16 +23,16 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V> {
                 getRepositoryTypes().getFieldValueType());
     }
 
-    public CreateFieldsTaskImpl.Builder<K, D, F, V> createFields() {
-        return new CreateFieldsTaskImpl.Builder<>(
+    public CreateEntityTaskImpl.Builder<K, D, F, V> createEntity() {
+        return new CreateEntityTaskImpl.Builder<>(
                 getRepositoryTypes().getEntityIdType(),
                 null,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType());
     }
 
-    public CreateEntityTaskImpl.Builder<E, K, D> createEntity() {
-        return new CreateEntityTaskImpl.Builder<>(
+    public AddEntityTaskImpl.Builder<E, K, D> addEntity() {
+        return new AddEntityTaskImpl.Builder<>(
                 getRepositoryTypes().getEntityType(),
                 getRepositoryTypes().getEntityIdType(),
                 null);
@@ -54,8 +54,8 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V> {
                 getRepositoryTypes().getEntityType());
     }
 
-    public DeleteTaskImpl.Builder<D, F, V> delete() {
-        return new DeleteTaskImpl.Builder<>(
+    public RemoveTaskImpl.Builder<D, F, V> remove() {
+        return new RemoveTaskImpl.Builder<>(
                 null,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType());
@@ -98,7 +98,7 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V> {
                 null);
     }
 
-    public static <E, K, D, F, V> DataTaskBuilderPrototypes<E, K, D, F, V> create(RepositoryTypes<E, K, D, F, V> repositoryTypes) {
+    public static <E, K, D, F, V, S> DataTaskBuilderPrototypes<E, K, D, F, V, S> create(RepositoryTypes<E, K, D, F, V, S> repositoryTypes) {
         Objects.requireNonNull(repositoryTypes);
         return new DataTaskBuilderPrototypes<>(repositoryTypes);
     }

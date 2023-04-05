@@ -8,14 +8,25 @@ import io.codeleaf.oerm.SearchPage;
 import io.codeleaf.oerm.SearchPageAndCount;
 
 import java.util.Map;
+import java.util.Set;
 
-public interface Repository<E, K, D, F, V> {
+public interface Repository<E, K, D, F, V, S> {
 
-    RepositoryTypes<E, K, D, F, V> getGenericTypes();
+    RepositoryTypes<E, K, D, F, V, S> getGenericTypes();
 
     SelectionBuilder<F, V, Selection> getSelectionFactory();
 
-    K create(E entity);
+    Set<D> listSupportedDataTypes();
+
+    boolean isSupportedDataType(D dataType);
+
+    D getDataType(E entity);
+
+    S getDataSchema(D dataType);
+
+    Selection select(D dataType, K entityId);
+
+    K add(E entity);
 
     K create(D dataType, Map<F, V> fields);
 
@@ -41,5 +52,5 @@ public interface Repository<E, K, D, F, V> {
 
     void update(D dataType, Selection selection, Map<F, V> fields);
 
-    void delete(D dataType, K entityId);
+    void remove(D dataType, K entityId);
 }

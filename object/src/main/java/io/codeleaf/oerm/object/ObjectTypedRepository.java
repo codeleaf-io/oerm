@@ -5,7 +5,7 @@ import io.codeleaf.oerm.generic.TypedRepository;
 
 import java.util.function.Supplier;
 
-public interface ObjectTypedRepository<E extends Entity> extends TypedRepository<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> {
+public interface ObjectTypedRepository<E extends Entity> extends TypedRepository<E, Reference<E>, Class<? extends E>, Supplier<?>, Object, Class<? extends Entity>> {
 
     default E getFieldNames() {
         return MethodReferences.createProxy(getDataType());

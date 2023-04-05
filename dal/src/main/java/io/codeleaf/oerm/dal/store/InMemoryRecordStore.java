@@ -58,8 +58,8 @@ public final class InMemoryRecordStore implements RecordDataTaskHandler {
     }
 
     private void initTaskHandlers() {
-        taskHandlers.put(CreateEntityTaskImpl.class,
-                (DataTaskHandler<CreateEntityTaskImpl<RecordWithType, IdentifierWithType, String>, IdentifierWithType>) task ->
+        taskHandlers.put(AddEntityTaskImpl.class,
+                (DataTaskHandler<AddEntityTaskImpl<RecordWithType, IdentifierWithType, String>, IdentifierWithType>) task ->
                 {
                     ValueWithType<?> valueWithType = task.getEntity().getValue().get("identifier");
                     if (!(valueWithType instanceof TextWithType)) {
@@ -132,8 +132,8 @@ public final class InMemoryRecordStore implements RecordDataTaskHandler {
                     records.put(identifierWithType, task.getEntity());
                     return null;
                 });
-        taskHandlers.put(DeleteTaskImpl.class,
-                (DataTaskHandler<DeleteTaskImpl<String, String, ValueWithType<?>>, Void>) task ->
+        taskHandlers.put(RemoveTaskImpl.class,
+                (DataTaskHandler<RemoveTaskImpl<String, String, ValueWithType<?>>, Void>) task ->
                 {
                     Set<IdentifierWithType> toRemove = new HashSet<>();
                     for (Map.Entry<IdentifierWithType, RecordWithType> entry : records.entrySet()) {

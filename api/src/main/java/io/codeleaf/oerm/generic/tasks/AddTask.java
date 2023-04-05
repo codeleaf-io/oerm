@@ -1,6 +1,6 @@
 package io.codeleaf.oerm.generic.tasks;
 
-public interface CreateTask<K, D> extends WriteTask<D, K> {
+public interface AddTask<K, D> extends WriteTask<D, K> {
 
     Class<K> getEntityIdType();
 
@@ -10,7 +10,7 @@ public interface CreateTask<K, D> extends WriteTask<D, K> {
 
     interface Builder<
             B extends Builder<B, T, K, D>,
-            T extends CreateTask<K, D>,
+            T extends AddTask<K, D>,
             K,
             D>
             extends WriteTask.Builder<B, T, D, K> {

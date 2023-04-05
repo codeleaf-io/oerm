@@ -42,7 +42,7 @@ public final class DataAccessProvider {
     }
 
     public EntityRepository getEntityRepository() {
-        return getEntityDataHandler().toRepository(null);
+        return getEntityDataHandler().toRepository();
     }
 
     public EntityTypedRepository getEntityTypedRepository(String dataType) {

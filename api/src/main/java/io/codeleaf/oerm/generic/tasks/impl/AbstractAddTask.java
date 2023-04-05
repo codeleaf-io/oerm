@@ -1,16 +1,16 @@
 package io.codeleaf.oerm.generic.tasks.impl;
 
 import io.codeleaf.common.utils.Types;
-import io.codeleaf.oerm.generic.tasks.CreateTask;
+import io.codeleaf.oerm.generic.tasks.AddTask;
 
 import java.util.Objects;
 
-public abstract class AbstractCreateTask<K, D> implements CreateTask<K, D> {
+public abstract class AbstractAddTask<K, D> implements AddTask<K, D> {
 
     private final Class<K> entityIdType;
     private final D dataType;
 
-    protected AbstractCreateTask(Class<K> entityIdType, D dataType) {
+    protected AbstractAddTask(Class<K> entityIdType, D dataType) {
         this.entityIdType = entityIdType;
         this.dataType = dataType;
     }
@@ -27,10 +27,10 @@ public abstract class AbstractCreateTask<K, D> implements CreateTask<K, D> {
 
     public static abstract class Builder<
             B extends Builder<B, T, K, D>,
-            T extends AbstractCreateTask<K, D>,
+            T extends AbstractAddTask<K, D>,
             K,
             D
-            > implements CreateTask.Builder<B, T, K, D> {
+            > implements AddTask.Builder<B, T, K, D> {
 
         protected Class<K> entityIdType;
         protected D dataType;

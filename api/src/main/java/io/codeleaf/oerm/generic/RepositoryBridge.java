@@ -11,32 +11,26 @@ import io.codeleaf.oerm.generic.tasks.DataTask;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
-public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D, F, V> {
+public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K, D, F, V, S> {
 
-    private final RepositoryTypes<E, K, D, F, V> genericTypes;
-    private final DataTaskHandler<E, K, D, F, V> dataTaskHandler;
-    private final EntitySelector<E, K, D> entitySelector;
+    private final RepositoryTypes<E, K, D, F, V, S> genericTypes;
+    private final DataTaskHandler<E, K, D, F, V, S> dataTaskHandler;
 
     private RepositoryBridge(
-            RepositoryTypes<E, K, D, F, V> genericTypes,
-            DataTaskHandler<E, K, D, F, V> dataTaskHandler,
-            EntitySelector<E, K, D> entitySelector) {
+            RepositoryTypes<E, K, D, F, V, S> genericTypes,
+            DataTaskHandler<E, K, D, F, V, S> dataTaskHandler) {
         this.genericTypes = genericTypes;
         this.dataTaskHandler = dataTaskHandler;
-        this.entitySelector = entitySelector;
     }
 
-    public DataTaskHandler<E, K, D, F, V> getDataTaskHandler() {
+    public DataTaskHandler<E, K, D, F, V, S> getDataTaskHandler() {
         return dataTaskHandler;
     }
 
-    public EntitySelector<E, K, D> getEntitySelector() {
-        return entitySelector;
-    }
-
     @Override
-    public RepositoryTypes<E, K, D, F, V> getGenericTypes() {
+    public RepositoryTypes<E, K, D, F, V, S> getGenericTypes() {
         return genericTypes;
     }
 
@@ -46,16 +40,41 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
     }
 
     @Override
-    public K create(E entity) {
-        return handleTask(dataTaskHandler.getTaskBuilders().createEntity()
-                .withDataType(entitySelector.getDataType(entity))
+    public Set<D> listSupportedDataTypes() {
+        return null;
+    }
+
+    @Override
+    public boolean isSupportedDataType(D dataType) {
+        return false;
+    }
+
+    @Override
+    public D getDataType(E entity) {
+        return null;
+    }
+
+    @Override
+    public S getDataSchema(D dataType) {
+        return null;
+    }
+
+    @Override
+    public Selection select(D dataType, K entityId) {
+        return null;
+    }
+
+    @Override
+    public K add(E entity) {
+        return handleTask(dataTaskHandler.getTaskBuilders().addEntity()
+                .withDataType(getDataType(entity))
                 .withEntity(entity)
                 .build());
     }
 
     @Override
     public K create(D dataType, Map<F, V> fields) {
-        return handleTask(dataTaskHandler.getTaskBuilders().createFields()
+        return handleTask(dataTaskHandler.getTaskBuilders().createEntity()
                 .withDataType(dataType)
                 .withFields(fields)
                 .build());
@@ -63,12 +82,12 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
 
     @Override
     public boolean exists(D dataType, K entityId) {
-        return count(dataType, entitySelector.select(dataType, entityId)) > 0;
+        return count(dataType, select(dataType, entityId)) > 0;
     }
 
     @Override
     public E retrieve(D dataType, K entityId) {
-        return retrieveUnique(dataType, entitySelector.select(dataType, entityId));
+        return retrieveUnique(dataType, select(dataType, entityId));
     }
 
     @Override
@@ -131,7 +150,7 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
     @Override
     public void update(E entity) {
         handleTask(dataTaskHandler.getTaskBuilders().updateEntity()
-                .withDataType(entitySelector.getDataType(entity))
+                .withDataType(getDataType(entity))
                 .withEntity(entity)
                 .build());
     }
@@ -146,10 +165,10 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
     }
 
     @Override
-    public void delete(D dataType, K entityId) {
-        handleTask(dataTaskHandler.getTaskBuilders().delete()
+    public void remove(D dataType, K entityId) {
+        handleTask(dataTaskHandler.getTaskBuilders().remove()
                 .withDataType(dataType)
-                .withSelection(entitySelector.select(dataType, entityId))
+                .withSelection(select(dataType, entityId))
                 .build());
     }
 
@@ -161,13 +180,11 @@ public final class RepositoryBridge<E, K, D, F, V> implements Repository<E, K, D
         }
     }
 
-    public static <E, K, D, F, V> RepositoryBridge<E, K, D, F, V> create(
-            RepositoryTypes<E, K, D, F, V> genericTypes,
-            DataTaskHandler<E, K, D, F, V> dataTaskHandler,
-            EntitySelector<E, K, D> entitySelector) {
+    public static <E, K, D, F, V, S> RepositoryBridge<E, K, D, F, V, S> create(
+            RepositoryTypes<E, K, D, F, V, S> genericTypes,
+            DataTaskHandler<E, K, D, F, V, S> dataTaskHandler) {
         Objects.requireNonNull(genericTypes);
         Objects.requireNonNull(dataTaskHandler);
-        Objects.requireNonNull(entitySelector);
-        return new RepositoryBridge<>(genericTypes, dataTaskHandler, entitySelector);
+        return new RepositoryBridge<>(genericTypes, new DelegatingDataTaskHandler<>(dataTaskHandler));
     }
 }

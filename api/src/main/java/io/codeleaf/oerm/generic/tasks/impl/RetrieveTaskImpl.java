@@ -35,9 +35,7 @@ public final class RetrieveTaskImpl<D, F, V, H> extends AbstractSearchSelectProj
         @Override
         public RetrieveTaskImpl<D, F, V, H> build() {
             validate();
-            return new RetrieveTaskImpl<>(
-                    Collections.unmodifiableList(new ArrayList<>(projection)),
-                    searchHitType, selection, fieldNameType, fieldValueType, dataType);
+            return new RetrieveTaskImpl<>(List.copyOf(projection), searchHitType, selection, fieldNameType, fieldValueType, dataType);
         }
     }
 }

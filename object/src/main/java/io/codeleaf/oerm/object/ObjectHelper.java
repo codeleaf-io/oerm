@@ -4,11 +4,11 @@ import io.codeleaf.common.utils.MethodReferences;
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.modeling.selection.Selection;
 import io.codeleaf.modeling.selection.SelectionBuilder;
-import io.codeleaf.oerm.generic.EntitySelector;
+import io.codeleaf.oerm.generic.EntityHelper;
 
 import java.util.function.Supplier;
 
-public final class ObjectSelector<E extends Entity> implements EntitySelector<E, Reference<E>, Class<? extends E>> {
+public final class ObjectHelper<E extends Entity> implements EntityHelper<E, Reference<E>, Class<? extends E>> {
 
     @Override
     public Selection select(Class<? extends E> dataType, Reference<E> objectId) {
@@ -21,9 +21,9 @@ public final class ObjectSelector<E extends Entity> implements EntitySelector<E,
         return Types.cast(entity.getMeta().getEntityType());
     }
 
-    private static final ObjectSelector<?> INSTANCE = new ObjectSelector<>();
+    private static final ObjectHelper<?> INSTANCE = new ObjectHelper<>();
 
-    public static <E extends Entity> ObjectSelector<E> get() {
+    public static <E extends Entity> ObjectHelper<E> get() {
         return Types.cast(INSTANCE);
     }
 }

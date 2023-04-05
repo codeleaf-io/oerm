@@ -8,10 +8,10 @@ import io.codeleaf.oerm.generic.RepositoryTypes;
 
 import java.util.function.Supplier;
 
-public interface ObjectDataTaskHandler extends DataTaskHandler<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object> {
+public interface ObjectDataTaskHandler extends DataTaskHandler<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> {
 
     @Override
-    default RepositoryTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object> getGenericTypes() {
+    default RepositoryTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> getGenericTypes() {
         return ObjectRepository.GENERIC_TYPES;
     }
 
@@ -21,7 +21,7 @@ public interface ObjectDataTaskHandler extends DataTaskHandler<Entity, Reference
 
     default ObjectRepository toRepository() {
         return Types.cast(
-                RepositoryBridge.create(getGenericTypes(), this, ObjectSelector.get()),
+                RepositoryBridge.create(getGenericTypes(), this),
                 ObjectRepository.class);
     }
 }

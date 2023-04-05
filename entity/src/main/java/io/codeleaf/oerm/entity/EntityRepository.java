@@ -7,17 +7,18 @@ import io.codeleaf.oerm.generic.Repository;
 import io.codeleaf.oerm.generic.RepositoryTypes;
 import io.codeleaf.oerm.generic.TypedRepositoryImpl;
 
-public interface EntityRepository extends Repository<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> {
+public interface EntityRepository extends Repository<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> {
 
-    RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> GENERIC_TYPES = new RepositoryTypes<>(
+    RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> GENERIC_TYPES = new RepositoryTypes<>(
             EntityRecord.class,
             IdentifierWithType.class,
             String.class,
             String.class,
-            Types.cast(ValueWithType.class));
+            Types.cast(ValueWithType.class),
+            EntitySchema.class);
 
     @Override
-    default RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> getGenericTypes() {
+    default RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> getGenericTypes() {
         return GENERIC_TYPES;
     }
 

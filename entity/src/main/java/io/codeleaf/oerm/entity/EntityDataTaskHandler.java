@@ -4,23 +4,22 @@ import io.codeleaf.common.utils.Types;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.ValueWithType;
 import io.codeleaf.oerm.generic.DataTaskHandler;
-import io.codeleaf.oerm.generic.EntitySelector;
+import io.codeleaf.oerm.generic.EntityHelper;
 import io.codeleaf.oerm.generic.RepositoryBridge;
 import io.codeleaf.oerm.generic.RepositoryTypes;
 
 import java.util.Objects;
 
-public interface EntityDataTaskHandler extends DataTaskHandler<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> {
+public interface EntityDataTaskHandler extends DataTaskHandler<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> {
 
     @Override
-    default RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> getGenericTypes() {
+    default RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> getGenericTypes() {
         return EntityRepository.GENERIC_TYPES;
     }
 
-    default EntityRepository toRepository(EntitySelector<EntityRecord, IdentifierWithType, String> entitySelector) {
-        Objects.requireNonNull(entitySelector);
+    default EntityRepository toRepository() {
         return Types.cast(
-                RepositoryBridge.create(getGenericTypes(), this, entitySelector),
+                RepositoryBridge.create(getGenericTypes(), this),
                 EntityRepository.class);
     }
 }

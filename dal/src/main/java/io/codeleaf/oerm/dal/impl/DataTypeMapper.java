@@ -2,11 +2,16 @@ package io.codeleaf.oerm.dal.impl;
 
 import io.codeleaf.oerm.dal.DataTypeRegistry;
 import io.codeleaf.oerm.entity.EntitySchema;
+import io.codeleaf.oerm.entity.EntitySchemaProvider;
 import io.codeleaf.oerm.object.Entity;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public final class DataTypeMapper implements DataTypeRegistry {
+
+    private final Map<String, EntitySchema> entitySchemas = new LinkedHashMap<>();
 
     public Class<? extends Entity> map(String dataType) {
         return null;
@@ -25,7 +30,7 @@ public final class DataTypeMapper implements DataTypeRegistry {
 
     @Override
     public void register(EntitySchema entitySchema) {
-
+        entitySchemas.put(entitySchema.getDataType(), entitySchema);
     }
 
     @Override

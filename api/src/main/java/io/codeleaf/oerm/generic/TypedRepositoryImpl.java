@@ -10,18 +10,18 @@ import io.codeleaf.oerm.SearchPageAndCount;
 import java.util.Map;
 import java.util.Objects;
 
-public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository<E, K, D, F, V> {
+public final class TypedRepositoryImpl<E, K, D, F, V, S> implements TypedRepository<E, K, D, F, V, S> {
 
-    private final Repository<E, K, D, F, V> repository;
+    private final Repository<E, K, D, F, V, S> repository;
     private final D dataType;
 
-    private TypedRepositoryImpl(Repository<E, K, D, F, V> repository, D dataType) {
+    private TypedRepositoryImpl(Repository<E, K, D, F, V, S> repository, D dataType) {
         this.repository = repository;
         this.dataType = dataType;
     }
 
     @Override
-    public RepositoryTypes<E, K, D, F, V> getGenericTypes() {
+    public RepositoryTypes<E, K, D, F, V, S> getGenericTypes() {
         return repository.getGenericTypes();
     }
 
@@ -31,13 +31,23 @@ public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository
     }
 
     @Override
+    public S getDataSchema() {
+        return repository.getDataSchema(dataType);
+    }
+
+    @Override
+    public Selection select(K entityId) {
+        return repository.select(dataType, entityId);
+    }
+
+    @Override
     public SelectionBuilder<F, V, Selection> getSelectionFactory() {
         return repository.getSelectionFactory();
     }
 
     @Override
     public K create(E entity) {
-        return repository.create(entity);
+        return repository.add(entity);
     }
 
     @Override
@@ -102,10 +112,10 @@ public final class TypedRepositoryImpl<E, K, D, F, V> implements TypedRepository
 
     @Override
     public void delete(K entityId) {
-        repository.delete(dataType, entityId);
+        repository.remove(dataType, entityId);
     }
 
-    public static <E, K, D, F, V> TypedRepositoryImpl<E, K, D, F, V> create(Repository<E, K, D, F, V> repository, D dataType) {
+    public static <E, K, D, F, V, S> TypedRepositoryImpl<E, K, D, F, V, S> create(Repository<E, K, D, F, V, S> repository, D dataType) {
         Objects.requireNonNull(repository);
         Objects.requireNonNull(dataType);
         return new TypedRepositoryImpl<>(repository, dataType);

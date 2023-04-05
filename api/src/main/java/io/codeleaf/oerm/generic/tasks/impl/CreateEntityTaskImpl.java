@@ -2,72 +2,93 @@ package io.codeleaf.oerm.generic.tasks.impl;
 
 import io.codeleaf.oerm.generic.tasks.CreateEntityTask;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
-public final class CreateEntityTaskImpl<E, K, D> extends AbstractCreateTask<K, D> implements CreateEntityTask<E, K, D> {
+public final class CreateEntityTaskImpl<K, D, F, V> extends AbstractAddTask<K, D> implements CreateEntityTask<K, D, F, V> {
 
-    private final Class<E> entityType;
-    private final E entity;
+    private final Class<F> fieldNameType;
+    private final Class<V> fieldValueType;
+    private final Map<F, V> fields;
 
-    private CreateEntityTaskImpl(Class<E> entityType, D dataType, E entity, Class<K> entityIdType) {
+    private CreateEntityTaskImpl(Class<F> fieldNameType, Class<V> fieldValueType, D dataType, Map<F, V> fields, Class<K> entityIdType) {
         super(entityIdType, dataType);
-        this.entityType = entityType;
-        this.entity = entity;
+        this.fieldNameType = fieldNameType;
+        this.fieldValueType = fieldValueType;
+        this.fields = fields;
     }
 
     @Override
-    public Class<E> getEntityType() {
-        return entityType;
+    public Class<F> getFieldNameType() {
+        return fieldNameType;
     }
 
     @Override
-    public E getEntity() {
-        return entity;
+    public Class<V> getFieldValueType() {
+        return fieldValueType;
     }
 
-    public static final class Builder<E, K, D>
-            extends AbstractCreateTask.Builder<Builder<E, K, D>, CreateEntityTaskImpl<E, K, D>, K, D>
-            implements CreateEntityTask.Builder<Builder<E, K, D>, CreateEntityTaskImpl<E, K, D>, E, K, D> {
+    @Override
+    public Map<F, V> getFields() {
+        return fields;
+    }
 
-        private Class<E> entityType;
-        private E entity;
+    public static final class Builder<K, D, F, V>
+            extends AbstractAddTask.Builder<Builder<K, D, F, V>, CreateEntityTaskImpl<K, D, F, V>, K, D>
+            implements CreateEntityTask.Builder<Builder<K, D, F, V>, CreateEntityTaskImpl<K, D, F, V>, K, D, F, V> {
+
+        private final Map<F, V> fields = new LinkedHashMap<>();
+        private Class<F> fieldNameType;
+        private Class<V> fieldValueType;
 
         public Builder() {
         }
 
-        public Builder(Class<E> entityType, Class<K> entityIdType, D dataType) {
+        public Builder(Class<K> entityIdType, D dataType, Class<F> fieldNameType, Class<V> fieldValueType) {
             super(entityIdType, dataType);
-            this.entityType = entityType;
+            this.fieldNameType = fieldNameType;
+            this.fieldValueType = fieldValueType;
         }
 
         @Override
-        public Builder<E, K, D> withEntityType(Class<E> entityType) {
-            Objects.requireNonNull(entityType);
-            this.entityType = entityType;
+        public Builder<K, D, F, V> withField(F fieldName, V fieldValue) {
+            Objects.requireNonNull(fieldName);
+            fields.put(fieldName, fieldValue);
             return this;
         }
 
         @Override
-        public Builder<E, K, D> withEntity(E entity) {
-            Objects.requireNonNull(entity);
-            this.entity = entity;
+        public Builder<K, D, F, V> withFieldNameType(Class<F> fieldNameType) {
+            Objects.requireNonNull(fieldNameType);
+            this.fieldNameType = fieldNameType;
+            return this;
+        }
+
+        @Override
+        public Builder<K, D, F, V> withFieldValueType(Class<V> fieldValueType) {
+            Objects.requireNonNull(fieldValueType);
+            this.fieldValueType = fieldValueType;
             return this;
         }
 
         protected void validate() {
             super.validate();
-            if (entity == null) {
-                throw new IllegalStateException("Entity must be set!");
+            if (fieldNameType == null || fieldValueType == null) {
+                throw new IllegalStateException();
             }
-            if (entityType != null && !entityType.isAssignableFrom(entity.getClass())) {
-                throw new IllegalStateException("Entity must have the specified entity type!");
+            if (fields.isEmpty()) {
+                throw new IllegalStateException("No fields set!");
             }
         }
 
         @Override
-        public CreateEntityTaskImpl<E, K, D> build() {
+        public CreateEntityTaskImpl<K, D, F, V> build() {
             validate();
-            return new CreateEntityTaskImpl<>(entityType, dataType, entity, entityIdType);
+            return new CreateEntityTaskImpl<>(fieldNameType, fieldValueType, dataType,
+                    Collections.unmodifiableMap(new LinkedHashMap<>(fields)),
+                    entityIdType);
         }
     }
 }

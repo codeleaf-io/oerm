@@ -9,11 +9,15 @@ import io.codeleaf.oerm.SearchPageAndCount;
 
 import java.util.Map;
 
-public interface TypedRepository<E, K, D, F, V> {
+public interface TypedRepository<E, K, D, F, V, S> {
 
-    RepositoryTypes<E, K, D, F, V> getGenericTypes();
+    RepositoryTypes<E, K, D, F, V, S> getGenericTypes();
 
     D getDataType();
+
+    S getDataSchema();
+
+    Selection select(K entityId);
 
     SelectionBuilder<F, V, Selection> getSelectionFactory();
 

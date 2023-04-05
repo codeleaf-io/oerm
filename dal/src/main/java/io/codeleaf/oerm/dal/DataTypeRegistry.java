@@ -1,9 +1,10 @@
 package io.codeleaf.oerm.dal;
 
 import io.codeleaf.oerm.entity.EntitySchema;
+import io.codeleaf.oerm.entity.EntitySchemaProvider;
 import io.codeleaf.oerm.object.Entity;
 
-public interface DataTypeRegistry {
+public interface DataTypeRegistry extends EntitySchemaProvider {
 
     void register(Class<? extends Entity> object);
 
@@ -20,4 +21,15 @@ public interface DataTypeRegistry {
     boolean isBound(Class<? extends Entity> objectType);
 
     boolean isBound(String dataType);
+
+    @Override
+    default boolean hasSchema(String dataType) {
+        return isPresent(dataType);
+    }
+
+    @Override
+    default EntitySchema getSchema(String dataType) {
+        return lookup(dataType);
+    }
+
 }

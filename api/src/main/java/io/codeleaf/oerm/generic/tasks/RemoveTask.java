@@ -1,13 +1,13 @@
 package io.codeleaf.oerm.generic.tasks;
 
-public interface DeleteTask<D, F, V, O>
+public interface RemoveTask<D, F, V, O>
         extends
         SelectTask<D, F, V, O>,
         WriteTask<D, O> {
 
     interface Builder<
             B extends Builder<B, T, D, F, V, O>,
-            T extends DeleteTask<D, F, V, O>,
+            T extends RemoveTask<D, F, V, O>,
             D,
             F,
             V,
