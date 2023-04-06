@@ -27,9 +27,9 @@ public interface TypedRepository<E, K, D, F, V, S> {
 
     boolean exists(K entityId);
 
-    E retrieve(K entityId);
+    E get(K entityId);
 
-    E retrieveUnique(Selection selection);
+    E retrieve(Selection selection);
 
     boolean isUnique(Selection selection);
 

@@ -61,13 +61,13 @@ public final class TypedRepositoryImpl<E, K, D, F, V, S> implements TypedReposit
     }
 
     @Override
-    public E retrieve(K entityId) {
-        return repository.retrieve(dataType, entityId);
+    public E get(K entityId) {
+        return repository.get(dataType, entityId);
     }
 
     @Override
-    public E retrieveUnique(Selection selection) {
-        return repository.retrieveUnique(dataType, selection);
+    public E retrieve(Selection selection) {
+        return repository.retrieve(dataType, selection);
     }
 
     @Override

@@ -16,6 +16,12 @@ public final class DataTypeTaskBuilderPrototypes<E, K, D, F, V, S> {
         return repositoryTypes;
     }
 
+    public SelectEntityTaskImpl.Builder<K, D> select() {
+        return new SelectEntityTaskImpl.Builder<>(
+                getRepositoryTypes().getEntityIdType(),
+                getRepositoryTypes().getDataTypeType());
+    }
+
     public ListDataTypesTaskImpl.Builder<D> list() {
         return new ListDataTypesTaskImpl.Builder<>(
                 getRepositoryTypes().getDataTypeType());

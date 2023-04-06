@@ -7,9 +7,7 @@ import io.codeleaf.oerm.SearchCursor;
 import io.codeleaf.oerm.SearchCursorAndCount;
 import io.codeleaf.oerm.SearchPage;
 import io.codeleaf.oerm.SearchPageAndCount;
-import io.codeleaf.oerm.generic.tasks.DataTask;
 import io.codeleaf.oerm.generic.tasks.DatabaseTask;
-import io.codeleaf.oerm.generic.tasks.impl.DetermineDataTypeTaskImpl;
 
 import java.util.Map;
 import java.util.Objects;
@@ -71,7 +69,11 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public Selection select(D dataType, K entityId) {
-        return null;
+        return handleDataTask(taskHandler.getDataTypeTaskBuilders()
+                .select()
+                .withDataType(dataType)
+                .withEntityId(entityId)
+                .build());
     }
 
     @Override
@@ -96,12 +98,12 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
     }
 
     @Override
-    public E retrieve(D dataType, K entityId) {
-        return retrieveUnique(dataType, select(dataType, entityId));
+    public E get(D dataType, K entityId) {
+        return retrieve(dataType, select(dataType, entityId));
     }
 
     @Override
-    public E retrieveUnique(D dataType, Selection selection) {
+    public E retrieve(D dataType, Selection selection) {
         return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .retrieve()
                 .withSelection(selection)

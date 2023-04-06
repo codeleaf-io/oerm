@@ -32,9 +32,9 @@ public interface Repository<E, K, D, F, V, S> {
 
     boolean exists(D dataType, K entityId);
 
-    E retrieve(D dataType, K entityId);
+    E get(D dataType, K entityId);
 
-    E retrieveUnique(D dataType, Selection selection);
+    E retrieve(D dataType, Selection selection);
 
     boolean isUnique(D dataType, Selection selection);
 
