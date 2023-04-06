@@ -4,6 +4,8 @@ public interface DetermineDataTypeTask<E, D> extends DataTypeTask<D, D> {
 
     E getEntity();
 
+    Class<E> getEntityType();
+
     interface Builder<
             B extends Builder<B, T, E, D>,
             T extends DetermineDataTypeTask<E, D>,

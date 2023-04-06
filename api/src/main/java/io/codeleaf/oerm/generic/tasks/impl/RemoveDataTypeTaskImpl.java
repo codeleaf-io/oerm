@@ -7,8 +7,8 @@ public final class RemoveDataTypeTaskImpl<D> extends AbstractDataTypeTask<D, Boo
 
     private final D dataType;
 
-    public RemoveDataTypeTaskImpl(D dataType) {
-        super(Boolean.class);
+    public RemoveDataTypeTaskImpl(D dataType, Class<D> dataTypeType) {
+        super(dataTypeType, Boolean.class);
         this.dataType = dataType;
     }
 
@@ -23,6 +23,10 @@ public final class RemoveDataTypeTaskImpl<D> extends AbstractDataTypeTask<D, Boo
 
         private D dataType;
 
+        public Builder(Class<D> dataTypeType) {
+            super(dataTypeType);
+        }
+
         @Override
         public Builder<D, S> withDataType(D dataType) {
             this.dataType = dataType;
@@ -32,7 +36,7 @@ public final class RemoveDataTypeTaskImpl<D> extends AbstractDataTypeTask<D, Boo
         @Override
         protected void validate() {
             super.validate();
-            if (dataType == null) {
+            if (!dataTypeType.isInstance(dataType)) {
                 throw new IllegalStateException();
             }
         }
@@ -40,7 +44,7 @@ public final class RemoveDataTypeTaskImpl<D> extends AbstractDataTypeTask<D, Boo
         @Override
         public RemoveDataTypeTaskImpl<D> build() {
             validate();
-            return new RemoveDataTypeTaskImpl<>(dataType);
+            return new RemoveDataTypeTaskImpl<>(dataType, dataTypeType);
         }
     }
 

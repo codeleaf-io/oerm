@@ -10,58 +10,58 @@ import io.codeleaf.oerm.impl.DefaultCount;
 import java.io.IOException;
 import java.util.Objects;
 
-public class DelegatingDataTaskHandler<E, K, D, F, V, S> implements DataTaskHandler<E, K, D, F, V, S> {
+public class DelegatingDataTaskHandler<E, K, D, F, V, S> implements DatabaseTaskHandler<E, K, D, F, V, S> {
 
-    private final DataTaskHandler<E, K, D, F, V, S> dataTaskHandler;
+    private final DatabaseTaskHandler<E, K, D, F, V, S> taskHandler;
 
-    public DelegatingDataTaskHandler(DataTaskHandler<E, K, D, F, V, S> dataTaskHandler) {
-        this.dataTaskHandler = dataTaskHandler;
+    public DelegatingDataTaskHandler(DatabaseTaskHandler<E, K, D, F, V, S> taskHandler) {
+        this.taskHandler = taskHandler;
     }
 
     @Override
     public <T extends Task<?>> boolean supportsTaskType(Class<T> taskType) {
-        if (dataTaskHandler.supportsTaskType(taskType)) {
+        if (taskHandler.supportsTaskType(taskType)) {
             return true;
         }
         if (Objects.equals(taskType, UpdateFieldsTaskImpl.class)) {
-            if (dataTaskHandler.supportsTaskType(UpdateEntityTaskImpl.class) &&
-                    dataTaskHandler.supportsTaskType(RetrieveTaskImpl.class)) {
+            if (taskHandler.supportsTaskType(UpdateEntityTaskImpl.class) &&
+                    taskHandler.supportsTaskType(RetrieveTaskImpl.class)) {
                 return true;
             }
         }
         if (Objects.equals(taskType, CreateEntityTaskImpl.class)) {
-            if (dataTaskHandler.supportsTaskType(CreateEntityTaskImpl.class) &&
-                    dataTaskHandler.supportsTaskType(RetrieveTaskImpl.class)) {
+            if (taskHandler.supportsTaskType(CreateEntityTaskImpl.class) &&
+                    taskHandler.supportsTaskType(RetrieveTaskImpl.class)) {
                 return true;
             }
         }
         if (Objects.equals(taskType, CursorSearchAndCountTaskImpl.class)) {
-            if ((dataTaskHandler.supportsTaskType(CursorSearchTaskImpl.class) ||
-                    dataTaskHandler.supportsTaskType(PageSearchTaskImpl.class)) &&
-                    dataTaskHandler.supportsTaskType(CountTaskImpl.class)) {
+            if ((taskHandler.supportsTaskType(CursorSearchTaskImpl.class) ||
+                    taskHandler.supportsTaskType(PageSearchTaskImpl.class)) &&
+                    taskHandler.supportsTaskType(CountTaskImpl.class)) {
                 return true;
             }
         }
         if (Objects.equals(taskType, PageSearchAndCountTaskImpl.class)) {
-            if ((dataTaskHandler.supportsTaskType(PageSearchTaskImpl.class) ||
-                    dataTaskHandler.supportsTaskType(CursorSearchTaskImpl.class)) &&
-                    dataTaskHandler.supportsTaskType(CountTaskImpl.class)) {
+            if ((taskHandler.supportsTaskType(PageSearchTaskImpl.class) ||
+                    taskHandler.supportsTaskType(CursorSearchTaskImpl.class)) &&
+                    taskHandler.supportsTaskType(CountTaskImpl.class)) {
                 return true;
             }
         }
         if (Objects.equals(taskType, CursorSearchTaskImpl.class)) {
-            if (dataTaskHandler.supportsTaskType(PageSearchTaskImpl.class)) {
+            if (taskHandler.supportsTaskType(PageSearchTaskImpl.class)) {
                 return true;
             }
         }
         if (Objects.equals(taskType, PageSearchTaskImpl.class)) {
-            if (dataTaskHandler.supportsTaskType(CursorSearchTaskImpl.class)) {
+            if (taskHandler.supportsTaskType(CursorSearchTaskImpl.class)) {
                 return true;
             }
         }
         if (Objects.equals(taskType, CountTaskImpl.class)) {
-            if (dataTaskHandler.supportsTaskType(CursorSearchAndCountTaskImpl.class) ||
-                    dataTaskHandler.supportsTaskType(PageSearchAndCountTaskImpl.class)) {
+            if (taskHandler.supportsTaskType(CursorSearchAndCountTaskImpl.class) ||
+                    taskHandler.supportsTaskType(PageSearchAndCountTaskImpl.class)) {
                 return true;
             }
         }
@@ -71,8 +71,8 @@ public class DelegatingDataTaskHandler<E, K, D, F, V, S> implements DataTaskHand
     @SuppressWarnings("unchecked")
     @Override
     public <O> O handleTask(Task<O> task) throws TaskHandlingException {
-        if (dataTaskHandler.supportsTaskType(task.getClass())) {
-            return dataTaskHandler.handleTask(task);
+        if (taskHandler.supportsTaskType(task.getClass())) {
+            return taskHandler.handleTask(task);
         }
         try {
             Class<?> taskType = task.getClass();
@@ -93,23 +93,23 @@ public class DelegatingDataTaskHandler<E, K, D, F, V, S> implements DataTaskHand
          */
             if (Objects.equals(taskType, CountTaskImpl.class)) {
                 CountTaskImpl<D, F, V> countTask = (CountTaskImpl<D, F, V>) task;
-                if (dataTaskHandler.supportsTaskType(CursorSearchAndCountTaskImpl.class)) {
-                    CursorSearchAndCountTaskImpl<D, F, V, E> searchTask = getTaskBuilders(countTask.getDataType())
+                if (taskHandler.supportsTaskType(CursorSearchAndCountTaskImpl.class)) {
+                    CursorSearchAndCountTaskImpl<D, F, V, E> searchTask = getDataTaskBuilders(countTask.getDataType())
                             .cursorSearchAndCount()
                             .withSelection(countTask.getSelection())
                             .withBufferSize(1)
                             .build();
-                    try (SearchCursorAndCount<E> search = dataTaskHandler.handleTask(searchTask)) {
+                    try (SearchCursorAndCount<E> search = taskHandler.handleTask(searchTask)) {
                         return (O) new DefaultCount(search.getCount());
                     }
-                } else if (dataTaskHandler.supportsTaskType(PageSearchAndCountTaskImpl.class)) {
-                    PageSearchAndCountTaskImpl<D, F, V, E> searchTask = getTaskBuilders(countTask.getDataType())
+                } else if (taskHandler.supportsTaskType(PageSearchAndCountTaskImpl.class)) {
+                    PageSearchAndCountTaskImpl<D, F, V, E> searchTask = getDataTaskBuilders(countTask.getDataType())
                             .pageSearchAndCount()
                             .withSelection(countTask.getSelection())
                             .withLimit(1)
                             .withOffset(0)
                             .build();
-                    SearchPageAndCount<E> search = dataTaskHandler.handleTask(searchTask);
+                    SearchPageAndCount<E> search = taskHandler.handleTask(searchTask);
                     return (O) new DefaultCount(search.getCount());
                 }
             }
@@ -121,7 +121,7 @@ public class DelegatingDataTaskHandler<E, K, D, F, V, S> implements DataTaskHand
 
     @Override
     public RepositoryTypes<E, K, D, F, V, S> getGenericTypes() {
-        return dataTaskHandler.getGenericTypes();
+        return taskHandler.getGenericTypes();
     }
 
 }

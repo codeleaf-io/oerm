@@ -5,10 +5,12 @@ import io.codeleaf.oerm.generic.tasks.DetermineDataTypeTask;
 public final class DetermineDataTypeTaskImpl<E, D> extends AbstractDataTypeTask<D, D>
         implements DetermineDataTypeTask<E, D> {
 
+    private final Class<E> entityType;
     private final E entity;
 
-    public DetermineDataTypeTaskImpl(Class<D> dataTypeClass, E entity) {
-        super(dataTypeClass);
+    public DetermineDataTypeTaskImpl(Class<E> entityType, Class<D> dataTypeType, E entity) {
+        super(dataTypeType, dataTypeType);
+        this.entityType = entityType;
         this.entity = entity;
     }
 
@@ -17,17 +19,23 @@ public final class DetermineDataTypeTaskImpl<E, D> extends AbstractDataTypeTask<
         return entity;
     }
 
+    @Override
+    public Class<E> getEntityType() {
+        return entityType;
+    }
+
     public static final class Builder<E, D> extends AbstractDataTypeTask.Builder<
             Builder<E, D>,
             DetermineDataTypeTaskImpl<E, D>,
             D,
             D> implements DetermineDataTypeTask.Builder<Builder<E, D>, DetermineDataTypeTaskImpl<E, D>, E, D> {
 
-        private final Class<D> dataTypeClass;
+        private final Class<E> entityType;
         private E entity;
 
-        public Builder(Class<D> dataTypeClass) {
-            this.dataTypeClass = dataTypeClass;
+        public Builder(Class<E> entityType, Class<D> dataTypeType) {
+            super(dataTypeType);
+            this.entityType = entityType;
         }
 
         @Override
@@ -39,10 +47,10 @@ public final class DetermineDataTypeTaskImpl<E, D> extends AbstractDataTypeTask<
         @Override
         protected void validate() {
             super.validate();
-            if (entity == null) {
+            if (entityType == null) {
                 throw new IllegalStateException();
             }
-            if (dataTypeClass == null) {
+            if (!entityType.isInstance(entity)) {
                 throw new IllegalStateException();
             }
         }
@@ -50,7 +58,7 @@ public final class DetermineDataTypeTaskImpl<E, D> extends AbstractDataTypeTask<
         @Override
         public DetermineDataTypeTaskImpl<E, D> build() {
             validate();
-            return new DetermineDataTypeTaskImpl<>(dataTypeClass, entity);
+            return new DetermineDataTypeTaskImpl<>(entityType, dataTypeType, entity);
         }
     }
 

@@ -2,6 +2,8 @@ package io.codeleaf.oerm.generic.tasks;
 
 public interface AddDataTypeTask<D, S> extends DataTypeTask<D, Void> {
 
+    Class<S> getEntitySchemaType();
+
     D getDataType();
 
     S getSchema();

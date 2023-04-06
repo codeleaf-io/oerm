@@ -5,11 +5,11 @@ import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.RecordType;
 import io.codeleaf.modeling.data.RecordWithType;
 import io.codeleaf.modeling.data.ValueWithType;
-import io.codeleaf.oerm.generic.DataTaskHandler;
+import io.codeleaf.oerm.generic.DatabaseTaskHandler;
 import io.codeleaf.oerm.generic.RepositoryBridge;
 import io.codeleaf.oerm.generic.RepositoryTypes;
 
-public interface RecordDataTaskHandler extends DataTaskHandler<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> {
+public interface RecordDataTaskHandler extends DatabaseTaskHandler<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> {
 
     @Override
     default RepositoryTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> getGenericTypes() {

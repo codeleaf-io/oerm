@@ -8,6 +8,8 @@ import io.codeleaf.oerm.SearchCursorAndCount;
 import io.codeleaf.oerm.SearchPage;
 import io.codeleaf.oerm.SearchPageAndCount;
 import io.codeleaf.oerm.generic.tasks.DataTask;
+import io.codeleaf.oerm.generic.tasks.DatabaseTask;
+import io.codeleaf.oerm.generic.tasks.impl.DetermineDataTypeTaskImpl;
 
 import java.util.Map;
 import java.util.Objects;
@@ -16,17 +18,17 @@ import java.util.Set;
 public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K, D, F, V, S> {
 
     private final RepositoryTypes<E, K, D, F, V, S> genericTypes;
-    private final DataTaskHandler<E, K, D, F, V, S> dataTaskHandler;
+    private final DatabaseTaskHandler<E, K, D, F, V, S> taskHandler;
 
     private RepositoryBridge(
             RepositoryTypes<E, K, D, F, V, S> genericTypes,
-            DataTaskHandler<E, K, D, F, V, S> dataTaskHandler) {
+            DatabaseTaskHandler<E, K, D, F, V, S> taskHandler) {
         this.genericTypes = genericTypes;
-        this.dataTaskHandler = dataTaskHandler;
+        this.taskHandler = taskHandler;
     }
 
-    public DataTaskHandler<E, K, D, F, V, S> getDataTaskHandler() {
-        return dataTaskHandler;
+    public DatabaseTaskHandler<E, K, D, F, V, S> getTaskHandler() {
+        return taskHandler;
     }
 
     @Override
@@ -41,22 +43,30 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public Set<D> listSupportedDataTypes() {
-        return null;
+        return handleDataTask(taskHandler.getDataTypeTaskBuilders()
+                .list()
+                .build());
     }
 
     @Override
     public boolean isSupportedDataType(D dataType) {
-        return false;
+        return listSupportedDataTypes().contains(dataType);
     }
 
     @Override
     public D getDataType(E entity) {
-        return null;
+        return handleDataTask(taskHandler.getDataTypeTaskBuilders()
+                .determine()
+                .withEntity(entity)
+                .build());
     }
 
     @Override
     public S getDataSchema(D dataType) {
-        return null;
+        return handleDataTask(taskHandler.getDataTypeTaskBuilders()
+                .get()
+                .withDataType(dataType)
+                .build());
     }
 
     @Override
@@ -66,7 +76,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public K add(E entity) {
-        return handleTask(dataTaskHandler.getTaskBuilders(getDataType(entity))
+        return handleDataTask(taskHandler.getDataTaskBuilders(getDataType(entity))
                 .addEntity()
                 .withEntity(entity)
                 .build());
@@ -74,7 +84,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public K create(D dataType, Map<F, V> fields) {
-        return handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .createEntity()
                 .withFields(fields)
                 .build());
@@ -92,7 +102,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public E retrieveUnique(D dataType, Selection selection) {
-        return handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .retrieve()
                 .withSelection(selection)
                 .build());
@@ -105,7 +115,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public long count(D dataType, Selection selection) {
-        return handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .count()
                 .withSelection(selection)
                 .build()).getCount();
@@ -113,7 +123,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public SearchCursor<E> search(D dataType, Selection selection) {
-        return handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .cursorSearch()
                 .withSelection(selection)
                 .build());
@@ -121,7 +131,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public SearchPage<E> search(D dataType, Selection selection, long offset, int limit) {
-        return handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .pageSearch()
                 .withSelection(selection)
                 .withOffset(offset)
@@ -131,7 +141,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public SearchCursorAndCount<E> searchAndCount(D dataType, Selection selection) {
-        return handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .cursorSearchAndCount()
                 .withSelection(selection)
                 .build());
@@ -139,7 +149,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public SearchPageAndCount<E> searchAndCount(D dataType, Selection selection, long offset, int limit) {
-        return handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .pageSearchAndCount()
                 .withSelection(selection)
                 .withOffset(offset)
@@ -149,7 +159,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public void update(E entity) {
-        handleTask(dataTaskHandler.getTaskBuilders(getDataType(entity))
+        handleDataTask(taskHandler.getDataTaskBuilders(getDataType(entity))
                 .updateEntity()
                 .withEntity(entity)
                 .build());
@@ -157,7 +167,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public void update(D dataType, Selection selection, Map<F, V> fields) {
-        handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .updateFields()
                 .withSelection(selection)
                 .withFields(fields)
@@ -166,15 +176,15 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     @Override
     public void remove(D dataType, K entityId) {
-        handleTask(dataTaskHandler.getTaskBuilders(dataType)
+        handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .remove()
                 .withSelection(select(dataType, entityId))
                 .build());
     }
 
-    private <O> O handleTask(DataTask<D, O> dataTask) {
+    private <O> O handleDataTask(DatabaseTask<O> databaseTask) {
         try {
-            return dataTaskHandler.handleTask(dataTask);
+            return taskHandler.handleTask(databaseTask);
         } catch (TaskHandlingException cause) {
             throw new RepositoryException(this, cause);
         }
@@ -182,7 +192,7 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
 
     public static <E, K, D, F, V, S> RepositoryBridge<E, K, D, F, V, S> create(
             RepositoryTypes<E, K, D, F, V, S> genericTypes,
-            DataTaskHandler<E, K, D, F, V, S> dataTaskHandler) {
+            DatabaseTaskHandler<E, K, D, F, V, S> dataTaskHandler) {
         Objects.requireNonNull(genericTypes);
         Objects.requireNonNull(dataTaskHandler);
         return new RepositoryBridge<>(genericTypes, new DelegatingDataTaskHandler<>(dataTaskHandler));

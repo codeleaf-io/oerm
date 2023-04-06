@@ -1,12 +1,14 @@
 package io.codeleaf.oerm.generic.tasks;
 
-public interface GetSchemaTask<D, S> extends DataTypeTask<D, S> {
+public interface GetEntitySchemaTask<D, S> extends DataTypeTask<D, S> {
 
     D getDataType();
 
+    Class<S> getEntitySchemaType();
+
     interface Builder<
             B extends Builder<B, T, D, S>,
-            T extends GetSchemaTask<D, S>,
+            T extends GetEntitySchemaTask<D, S>,
             D,
             S> extends DataTypeTask.Builder<B, T, D, S> {
 

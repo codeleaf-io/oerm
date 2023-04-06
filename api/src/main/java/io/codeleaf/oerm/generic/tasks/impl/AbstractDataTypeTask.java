@@ -4,10 +4,17 @@ import io.codeleaf.oerm.generic.tasks.DataTypeTask;
 
 public abstract class AbstractDataTypeTask<D, O> implements DataTypeTask<D, O> {
 
+    private final Class<D> dataTypeType;
     private final Class<O> outputType;
 
-    protected AbstractDataTypeTask(Class<O> outputType) {
+    protected AbstractDataTypeTask(Class<D> dataTypeType, Class<O> outputType) {
+        this.dataTypeType = dataTypeType;
         this.outputType = outputType;
+    }
+
+    @Override
+    public Class<D> getDataTypeType() {
+        return dataTypeType;
     }
 
     @Override
@@ -22,7 +29,16 @@ public abstract class AbstractDataTypeTask<D, O> implements DataTypeTask<D, O> {
             O
             > implements DataTypeTask.Builder<B, T, D, O> {
 
+        protected final Class<D> dataTypeType;
+
+        public Builder(Class<D> dataTypeType) {
+            this.dataTypeType = dataTypeType;
+        }
+
         protected void validate() {
+            if (dataTypeType == null) {
+                throw new IllegalStateException();
+            }
         }
     }
 

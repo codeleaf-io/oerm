@@ -1,8 +1,8 @@
 package io.codeleaf.oerm.generic.tasks;
 
-import io.codeleaf.modeling.task.Task;
+public interface DataTypeTask<D, O> extends DatabaseTask<O> {
 
-public interface DataTypeTask<D, O> extends Task<O> {
+    Class<D> getDataTypeType();
 
     interface Builder<
             B extends Builder<B, T, D, O>,

@@ -9,32 +9,22 @@ public final class ListDataTypesTaskImpl<D>
         extends AbstractDataTypeTask<D, Set<D>>
         implements ListDataTypesTask<D> {
 
-    public ListDataTypesTaskImpl(Class<Set<D>> outputType) {
-        super(outputType);
+    public ListDataTypesTaskImpl(Class<D> dataTypeType) {
+        super(dataTypeType, Types.cast(Set.class));
     }
 
     public static final class Builder<D>
             extends AbstractDataTypeTask.Builder<Builder<D>, ListDataTypesTaskImpl<D>, D, Set<D>>
             implements ListDataTypesTask.Builder<Builder<D>, ListDataTypesTaskImpl<D>, D> {
 
-        private final Class<D> dataTypeClass;
-
-        public Builder(Class<D> dataTypeClass) {
-            this.dataTypeClass = dataTypeClass;
-        }
-
-        @Override
-        protected void validate() {
-            super.validate();
-            if (dataTypeClass == null) {
-                throw new IllegalStateException();
-            }
+        public Builder(Class<D> dataTypeType) {
+            super(dataTypeType);
         }
 
         @Override
         public ListDataTypesTaskImpl<D> build() {
             validate();
-            return new ListDataTypesTaskImpl<>(Types.cast(Set.class));
+            return new ListDataTypesTaskImpl<>(dataTypeType);
         }
     }
 
