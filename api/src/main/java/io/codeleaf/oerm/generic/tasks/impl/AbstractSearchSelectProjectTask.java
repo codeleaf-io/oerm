@@ -74,6 +74,13 @@ public abstract class AbstractSearchSelectProjectTask<D, F, V, H, O> extends Abs
         }
 
         @Override
+        public B withOrder(List<Ordering<F>> ordering) {
+            Objects.requireNonNull(ordering);
+            order.addAll(ordering);
+            return Types.cast(this);
+        }
+
+        @Override
         protected void validate() {
             super.validate();
             if (projection.isEmpty() || searchHitType == null) {

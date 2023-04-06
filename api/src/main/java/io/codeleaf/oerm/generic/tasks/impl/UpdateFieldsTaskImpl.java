@@ -1,19 +1,20 @@
 package io.codeleaf.oerm.generic.tasks.impl;
 
-import io.codeleaf.oerm.generic.tasks.UpdateFieldsTask;
 import io.codeleaf.modeling.selection.Selection;
+import io.codeleaf.oerm.Count;
+import io.codeleaf.oerm.generic.tasks.UpdateFieldsTask;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public final class UpdateFieldsTaskImpl<D, F, V> extends AbstractSelectTask<D, F, V, Void> implements UpdateFieldsTask<D, F, V, Void> {
+public final class UpdateFieldsTaskImpl<D, F, V> extends AbstractSelectTask<D, F, V, Count> implements UpdateFieldsTask<D, F, V, Count> {
 
     private final Map<F, V> fields;
 
     private UpdateFieldsTaskImpl(Selection selection, Class<F> fieldNameType, Class<V> fieldValueType, D dataType, Map<F, V> fields) {
-        super(selection, fieldNameType, fieldValueType, dataType, Void.class);
+        super(selection, fieldNameType, fieldValueType, dataType, Count.class);
         this.fields = fields;
     }
 
@@ -23,8 +24,8 @@ public final class UpdateFieldsTaskImpl<D, F, V> extends AbstractSelectTask<D, F
     }
 
     public static final class Builder<D, F, V>
-            extends AbstractSelectTask.Builder<Builder<D, F, V>, UpdateFieldsTaskImpl<D, F, V>, D, F, V, Void>
-            implements UpdateFieldsTask.Builder<Builder<D, F, V>, UpdateFieldsTaskImpl<D, F, V>, D, F, V, Void> {
+            extends AbstractSelectTask.Builder<Builder<D, F, V>, UpdateFieldsTaskImpl<D, F, V>, D, F, V, Count>
+            implements UpdateFieldsTask.Builder<Builder<D, F, V>, UpdateFieldsTaskImpl<D, F, V>, D, F, V, Count> {
 
         private final Map<F, V> fields = new LinkedHashMap<>();
 

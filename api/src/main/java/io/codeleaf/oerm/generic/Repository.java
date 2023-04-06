@@ -50,7 +50,7 @@ public interface Repository<E, K, D, F, V, S> {
 
     void update(E entity);
 
-    void update(D dataType, Selection selection, Map<F, V> fields);
+    long update(D dataType, Selection selection, Map<F, V> fields);
 
     void remove(D dataType, K entityId);
 }

@@ -7,6 +7,7 @@ import io.codeleaf.oerm.SearchCursor;
 import io.codeleaf.oerm.SearchCursorAndCount;
 import io.codeleaf.oerm.SearchPage;
 import io.codeleaf.oerm.SearchPageAndCount;
+import io.codeleaf.oerm.generic.delegating.DelegatingDataTaskHandler;
 import io.codeleaf.oerm.generic.tasks.DatabaseTask;
 
 import java.util.Map;
@@ -168,12 +169,12 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
     }
 
     @Override
-    public void update(D dataType, Selection selection, Map<F, V> fields) {
-        handleDataTask(taskHandler.getDataTaskBuilders(dataType)
+    public long update(D dataType, Selection selection, Map<F, V> fields) {
+        return handleDataTask(taskHandler.getDataTaskBuilders(dataType)
                 .updateFields()
                 .withSelection(selection)
                 .withFields(fields)
-                .build());
+                .build()).getCount();
     }
 
     @Override
@@ -197,6 +198,6 @@ public final class RepositoryBridge<E, K, D, F, V, S> implements Repository<E, K
             DatabaseTaskHandler<E, K, D, F, V, S> dataTaskHandler) {
         Objects.requireNonNull(genericTypes);
         Objects.requireNonNull(dataTaskHandler);
-        return new RepositoryBridge<>(genericTypes, new DelegatingDataTaskHandler<>(dataTaskHandler));
+        return new RepositoryBridge<>(genericTypes, DelegatingDataTaskHandler.create(dataTaskHandler));
     }
 }

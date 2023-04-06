@@ -2,7 +2,7 @@ package io.codeleaf.oerm.impl;
 
 import io.codeleaf.oerm.Count;
 
-public final class DefaultCount implements Count {
+public class DefaultCount implements Count {
 
     private final long count;
 

@@ -24,6 +24,8 @@ public interface SearchTask<D, F, H, O> extends ReadTask<D, O> {
         @SuppressWarnings("unchecked")
         B withOrder(Ordering<F>... ordering);
 
+        B withOrder(List<Ordering<F>> ordering);
+
         @SuppressWarnings("unchecked")
         default B withAscendingOrder(F fieldName) {
             return withOrder(Ordering.createAsc(fieldName));

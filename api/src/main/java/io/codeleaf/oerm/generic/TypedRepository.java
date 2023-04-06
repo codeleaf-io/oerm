@@ -45,7 +45,7 @@ public interface TypedRepository<E, K, D, F, V, S> {
 
     void update(E entity);
 
-    void update(Selection selection, Map<F, V> fields);
+    long update(Selection selection, Map<F, V> fields);
 
     void delete(K entityId);
 }

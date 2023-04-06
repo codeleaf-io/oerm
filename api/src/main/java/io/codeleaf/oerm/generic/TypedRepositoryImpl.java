@@ -106,8 +106,8 @@ public final class TypedRepositoryImpl<E, K, D, F, V, S> implements TypedReposit
     }
 
     @Override
-    public void update(Selection selection, Map<F, V> fields) {
-        repository.update(dataType, selection, fields);
+    public long update(Selection selection, Map<F, V> fields) {
+        return repository.update(dataType, selection, fields);
     }
 
     @Override
