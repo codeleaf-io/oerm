@@ -3,6 +3,7 @@ package io.codeleaf.oerm.generic.tasks.impl;
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.oerm.Ordering;
 import io.codeleaf.oerm.SearchCursorAndCount;
+import io.codeleaf.oerm.generic.tasks.CountTask;
 import io.codeleaf.oerm.generic.tasks.CursorSearchAndCountTask;
 import io.codeleaf.modeling.selection.Selection;
 
@@ -20,10 +21,8 @@ public final class CursorSearchAndCountTaskImpl<D, F, V, H> extends AbstractCurs
     public static final class Builder<D, F, V, H> extends AbstractCursorSearchTask.Builder<
             Builder<D, F, V, H>,
             CursorSearchAndCountTaskImpl<D, F, V, H>,
-            D, F, V, H, SearchCursorAndCount<H>> {
-
-        public Builder() {
-        }
+            D, F, V, H, SearchCursorAndCount<H>>
+            implements CursorSearchAndCountTask.Builder<Builder<D, F, V, H>, CursorSearchAndCountTaskImpl<D, F, V, H>, D, F, V, H, SearchCursorAndCount<H>> {
 
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType, Class<H> searchHitType) {
             super(dataType, fieldNameType, fieldValueType, searchHitType);
@@ -33,9 +32,9 @@ public final class CursorSearchAndCountTaskImpl<D, F, V, H> extends AbstractCurs
         public CursorSearchAndCountTaskImpl<D, F, V, H> build() {
             validate();
             return new CursorSearchAndCountTaskImpl<>(
-                    bufferSize, Collections.unmodifiableList(new ArrayList<>(projection)),
+                    bufferSize, List.copyOf(projection),
                     searchHitType, selection, fieldNameType, fieldValueType, dataType,
-                    Collections.unmodifiableList(new ArrayList<>(order)));
+                    List.copyOf(order));
         }
     }
 }

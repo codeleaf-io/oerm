@@ -20,9 +20,6 @@ public final class CursorSearchTaskImpl<D, F, V, H> extends AbstractCursorSearch
             CursorSearchTaskImpl<D, F, V, H>,
             D, F, V, H, SearchCursor<H>> {
 
-        public Builder() {
-        }
-
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType, Class<H> searchHitType) {
             super(dataType, fieldNameType, fieldValueType, searchHitType);
         }
@@ -31,9 +28,9 @@ public final class CursorSearchTaskImpl<D, F, V, H> extends AbstractCursorSearch
         public CursorSearchTaskImpl<D, F, V, H> build() {
             validate();
             return new CursorSearchTaskImpl<>(
-                    bufferSize, Collections.unmodifiableList(new ArrayList<>(projection)),
+                    bufferSize, List.copyOf(projection),
                     searchHitType, selection, fieldNameType, fieldValueType, dataType,
-                    Collections.unmodifiableList(new ArrayList<>(order)));
+                    List.copyOf(order));
         }
     }
 }

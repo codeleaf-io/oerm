@@ -20,9 +20,6 @@ public final class PageSearchTaskImpl<D, F, V, H> extends AbstractPageSearchTask
             PageSearchTaskImpl<D, F, V, H>,
             D, F, V, H, SearchPage<H>> {
 
-        public Builder() {
-        }
-
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType, Class<H> searchHitType) {
             super(dataType, fieldNameType, fieldValueType, searchHitType);
         }

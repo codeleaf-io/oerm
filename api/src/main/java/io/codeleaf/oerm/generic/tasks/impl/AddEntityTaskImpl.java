@@ -29,22 +29,12 @@ public final class AddEntityTaskImpl<E, K, D> extends AbstractAddTask<K, D> impl
             extends AbstractAddTask.Builder<Builder<E, K, D>, AddEntityTaskImpl<E, K, D>, K, D>
             implements AddEntityTask.Builder<Builder<E, K, D>, AddEntityTaskImpl<E, K, D>, E, K, D> {
 
-        private Class<E> entityType;
+        private final Class<E> entityType;
         private E entity;
-
-        public Builder() {
-        }
 
         public Builder(Class<E> entityType, Class<K> entityIdType, D dataType) {
             super(entityIdType, dataType);
             this.entityType = entityType;
-        }
-
-        @Override
-        public Builder<E, K, D> withEntityType(Class<E> entityType) {
-            Objects.requireNonNull(entityType);
-            this.entityType = entityType;
-            return this;
         }
 
         @Override
@@ -54,6 +44,7 @@ public final class AddEntityTaskImpl<E, K, D> extends AbstractAddTask<K, D> impl
             return this;
         }
 
+        @Override
         protected void validate() {
             super.validate();
             if (entity == null) {

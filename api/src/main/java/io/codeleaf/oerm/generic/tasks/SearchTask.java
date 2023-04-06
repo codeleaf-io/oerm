@@ -21,10 +21,6 @@ public interface SearchTask<D, F, H, O> extends ReadTask<D, O> {
             O>
             extends ReadTask.Builder<B, T, D, O> {
 
-        B withSearchHitType(Class<H> searchHitType);
-
-        B withFieldNameType(Class<F> fieldNameType);
-
         @SuppressWarnings("unchecked")
         B withOrder(Ordering<F>... ordering);
 

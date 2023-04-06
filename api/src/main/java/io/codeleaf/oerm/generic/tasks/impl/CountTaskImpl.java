@@ -11,10 +11,8 @@ public final class CountTaskImpl<D, F, V> extends AbstractSelectTask<D, F, V, Co
     }
 
     public static final class Builder<D, F, V>
-            extends AbstractSelectTask.Builder<Builder<D, F, V>, CountTaskImpl<D, F, V>, D, F, V, Count> {
-
-        public Builder() {
-        }
+            extends AbstractSelectTask.Builder<Builder<D, F, V>, CountTaskImpl<D, F, V>, D, F, V, Count>
+            implements CountTask.Builder<Builder<D, F, V>, CountTaskImpl<D, F, V>, D, F, V, Count> {
 
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType) {
             super(dataType, fieldNameType, fieldValueType);

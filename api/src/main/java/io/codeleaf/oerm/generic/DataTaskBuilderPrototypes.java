@@ -7,9 +7,11 @@ import java.util.Objects;
 public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
 
     private final RepositoryTypes<E, K, D, F, V, S> repositoryTypes;
+    private final D dataType;
 
-    private DataTaskBuilderPrototypes(RepositoryTypes<E, K, D, F, V, S> repositoryTypes) {
+    private DataTaskBuilderPrototypes(RepositoryTypes<E, K, D, F, V, S> repositoryTypes, D dataType) {
         this.repositoryTypes = repositoryTypes;
+        this.dataType = dataType;
     }
 
     public RepositoryTypes<E, K, D, F, V, S> getRepositoryTypes() {
@@ -18,7 +20,7 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
 
     public CountTaskImpl.Builder<D, F, V> count() {
         return new CountTaskImpl.Builder<>(
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType());
     }
@@ -26,7 +28,7 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
     public CreateEntityTaskImpl.Builder<K, D, F, V> createEntity() {
         return new CreateEntityTaskImpl.Builder<>(
                 getRepositoryTypes().getEntityIdType(),
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType());
     }
@@ -35,12 +37,12 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
         return new AddEntityTaskImpl.Builder<>(
                 getRepositoryTypes().getEntityType(),
                 getRepositoryTypes().getEntityIdType(),
-                null);
+                dataType);
     }
 
     public CursorSearchAndCountTaskImpl.Builder<D, F, V, E> cursorSearchAndCount() {
         return new CursorSearchAndCountTaskImpl.Builder<>(
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType(),
                 getRepositoryTypes().getEntityType());
@@ -48,7 +50,7 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
 
     public CursorSearchTaskImpl.Builder<D, F, V, E> cursorSearch() {
         return new CursorSearchTaskImpl.Builder<>(
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType(),
                 getRepositoryTypes().getEntityType());
@@ -56,14 +58,14 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
 
     public RemoveTaskImpl.Builder<D, F, V> remove() {
         return new RemoveTaskImpl.Builder<>(
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType());
     }
 
     public PageSearchAndCountTaskImpl.Builder<D, F, V, E> pageSearchAndCount() {
         return new PageSearchAndCountTaskImpl.Builder<>(
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType(),
                 getRepositoryTypes().getEntityType());
@@ -71,7 +73,7 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
 
     public PageSearchTaskImpl.Builder<D, F, V, E> pageSearch() {
         return new PageSearchTaskImpl.Builder<>(
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType(),
                 getRepositoryTypes().getEntityType());
@@ -79,7 +81,7 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
 
     public RetrieveTaskImpl.Builder<D, F, V, E> retrieve() {
         return new RetrieveTaskImpl.Builder<>(
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType(),
                 getRepositoryTypes().getEntityType());
@@ -87,7 +89,7 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
 
     public UpdateFieldsTaskImpl.Builder<D, F, V> updateFields() {
         return new UpdateFieldsTaskImpl.Builder<>(
-                null,
+                dataType,
                 getRepositoryTypes().getFieldNameType(),
                 getRepositoryTypes().getFieldValueType());
     }
@@ -95,11 +97,12 @@ public final class DataTaskBuilderPrototypes<E, K, D, F, V, S> {
     public UpdateEntityTaskImpl.Builder<E, D> updateEntity() {
         return new UpdateEntityTaskImpl.Builder<>(
                 getRepositoryTypes().getEntityType(),
-                null);
+                dataType);
     }
 
-    public static <E, K, D, F, V, S> DataTaskBuilderPrototypes<E, K, D, F, V, S> create(RepositoryTypes<E, K, D, F, V, S> repositoryTypes) {
+    public static <E, K, D, F, V, S> DataTaskBuilderPrototypes<E, K, D, F, V, S> create(RepositoryTypes<E, K, D, F, V, S> repositoryTypes, D dataType) {
         Objects.requireNonNull(repositoryTypes);
-        return new DataTaskBuilderPrototypes<>(repositoryTypes);
+        Objects.requireNonNull(dataType);
+        return new DataTaskBuilderPrototypes<>(repositoryTypes, dataType);
     }
 }

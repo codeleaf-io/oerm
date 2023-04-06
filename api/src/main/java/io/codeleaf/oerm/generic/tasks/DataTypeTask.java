@@ -2,13 +2,11 @@ package io.codeleaf.oerm.generic.tasks;
 
 import io.codeleaf.modeling.task.Task;
 
-public interface DataTask<D, O> extends Task<O> {
-
-    D getDataType();
+public interface DataTypeTask<D, O> extends Task<O> {
 
     interface Builder<
             B extends Builder<B, T, D, O>,
-            T extends DataTask<D, O>,
+            T extends DataTypeTask<D, O>,
             D,
             O> {
 

@@ -14,8 +14,6 @@ public interface WriteEntityTask<E, D, O> extends WriteTask<D, O> {
             O>
             extends WriteTask.Builder<B, T, D, O> {
 
-        B withEntityType(Class<E> entityType);
-
         B withEntity(E entity);
     }
 }

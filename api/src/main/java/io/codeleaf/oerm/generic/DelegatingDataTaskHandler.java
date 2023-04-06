@@ -94,8 +94,8 @@ public class DelegatingDataTaskHandler<E, K, D, F, V, S> implements DataTaskHand
             if (Objects.equals(taskType, CountTaskImpl.class)) {
                 CountTaskImpl<D, F, V> countTask = (CountTaskImpl<D, F, V>) task;
                 if (dataTaskHandler.supportsTaskType(CursorSearchAndCountTaskImpl.class)) {
-                    CursorSearchAndCountTaskImpl<D, F, V, E> searchTask = getTaskBuilders().cursorSearchAndCount()
-                            .withDataType(countTask.getDataType())
+                    CursorSearchAndCountTaskImpl<D, F, V, E> searchTask = getTaskBuilders(countTask.getDataType())
+                            .cursorSearchAndCount()
                             .withSelection(countTask.getSelection())
                             .withBufferSize(1)
                             .build();
@@ -103,8 +103,8 @@ public class DelegatingDataTaskHandler<E, K, D, F, V, S> implements DataTaskHand
                         return (O) new DefaultCount(search.getCount());
                     }
                 } else if (dataTaskHandler.supportsTaskType(PageSearchAndCountTaskImpl.class)) {
-                    PageSearchAndCountTaskImpl<D, F, V, E> searchTask = getTaskBuilders().pageSearchAndCount()
-                            .withDataType(countTask.getDataType())
+                    PageSearchAndCountTaskImpl<D, F, V, E> searchTask = getTaskBuilders(countTask.getDataType())
+                            .pageSearchAndCount()
                             .withSelection(countTask.getSelection())
                             .withLimit(1)
                             .withOffset(0)

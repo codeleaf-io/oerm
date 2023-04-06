@@ -133,7 +133,7 @@ public final class InMemoryRecordStore implements RecordDataTaskHandler {
                     return null;
                 });
         taskHandlers.put(RemoveTaskImpl.class,
-                (DataTaskHandler<RemoveTaskImpl<String, String, ValueWithType<?>>, Void>) task ->
+                (DataTaskHandler<RemoveTaskImpl<String, String, ValueWithType<?>>, Count>) task ->
                 {
                     Set<IdentifierWithType> toRemove = new HashSet<>();
                     for (Map.Entry<IdentifierWithType, RecordWithType> entry : records.entrySet()) {

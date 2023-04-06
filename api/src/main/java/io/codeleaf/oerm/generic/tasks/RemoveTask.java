@@ -1,19 +1,20 @@
 package io.codeleaf.oerm.generic.tasks;
 
-public interface RemoveTask<D, F, V, O>
+import io.codeleaf.oerm.Count;
+
+public interface RemoveTask<D, F, V>
         extends
-        SelectTask<D, F, V, O>,
-        WriteTask<D, O> {
+        SelectTask<D, F, V, Count>,
+        WriteTask<D, Count> {
 
     interface Builder<
-            B extends Builder<B, T, D, F, V, O>,
-            T extends RemoveTask<D, F, V, O>,
+            B extends Builder<B, T, D, F, V>,
+            T extends RemoveTask<D, F, V>,
             D,
             F,
-            V,
-            O>
+            V>
             extends
-            SelectTask.Builder<B, T, D, F, V, O>,
-            WriteTask.Builder<B, T, D, O> {
+            SelectTask.Builder<B, T, D, F, V, Count>,
+            WriteTask.Builder<B, T, D, Count> {
     }
 }

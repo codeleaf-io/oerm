@@ -52,10 +52,7 @@ public abstract class AbstractSearchSelectProjectTask<D, F, V, H, O> extends Abs
 
         protected final List<F> projection = new LinkedList<>();
         protected final List<Ordering<F>> order = new LinkedList<>();
-        protected Class<H> searchHitType;
-
-        public Builder() {
-        }
+        protected final Class<H> searchHitType;
 
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType, Class<H> searchHitType) {
             super(dataType, fieldNameType, fieldValueType);
@@ -68,12 +65,6 @@ public abstract class AbstractSearchSelectProjectTask<D, F, V, H, O> extends Abs
             return Types.cast(this);
         }
 
-        @Override
-        public B withSearchHitType(Class<H> searchHitType) {
-            this.searchHitType = searchHitType;
-            return Types.cast(this);
-        }
-
         @SuppressWarnings("unchecked")
         @Override
         public B withOrder(Ordering<F>... ordering) {
@@ -82,6 +73,7 @@ public abstract class AbstractSearchSelectProjectTask<D, F, V, H, O> extends Abs
             return Types.cast(this);
         }
 
+        @Override
         protected void validate() {
             super.validate();
             if (projection.isEmpty() || searchHitType == null) {

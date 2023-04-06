@@ -19,9 +19,5 @@ public interface SelectTask<D, F, V, O> extends DataTask<D, O> {
             V,
             O>
             extends DataTask.Builder<B, T, D, O>, SelectableBuilder<F, V, B> {
-
-        B withFieldNameType(Class<F> fieldNameType);
-
-        B withFieldValueType(Class<V> fieldValueType);
     }
 }

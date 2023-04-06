@@ -1,5 +1,7 @@
 package io.codeleaf.oerm.generic.tasks;
 
+import io.codeleaf.common.utils.Types;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -25,13 +27,12 @@ public interface ProjectTask<D, F, O> extends ReadTask<D, O> {
             return withProjections(Arrays.asList(projection));
         }
 
-        @SuppressWarnings("unchecked")
         default B withProjections(Collection<F> projection) {
             Objects.requireNonNull(projection);
             for (F fieldName : projection) {
                 withProjection(fieldName);
             }
-            return (B) this;
+            return Types.cast(this);
         }
 
         B withProjection(F fieldName);

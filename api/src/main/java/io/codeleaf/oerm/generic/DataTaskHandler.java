@@ -6,7 +6,7 @@ public interface DataTaskHandler<E, K, D, F, V, S> extends TaskHandler {
 
     RepositoryTypes<E, K, D, F, V, S> getGenericTypes();
 
-    default DataTaskBuilderPrototypes<E, K, D, F, V, S> getTaskBuilders() {
-        return DataTaskBuilderPrototypes.create(getGenericTypes());
+    default DataTaskBuilderPrototypes<E, K, D, F, V, S> getTaskBuilders(D dataType) {
+        return DataTaskBuilderPrototypes.create(getGenericTypes(), dataType);
     }
 }

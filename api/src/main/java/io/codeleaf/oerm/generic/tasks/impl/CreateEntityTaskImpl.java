@@ -40,11 +40,8 @@ public final class CreateEntityTaskImpl<K, D, F, V> extends AbstractAddTask<K, D
             implements CreateEntityTask.Builder<Builder<K, D, F, V>, CreateEntityTaskImpl<K, D, F, V>, K, D, F, V> {
 
         private final Map<F, V> fields = new LinkedHashMap<>();
-        private Class<F> fieldNameType;
-        private Class<V> fieldValueType;
-
-        public Builder() {
-        }
+        private final Class<F> fieldNameType;
+        private final Class<V> fieldValueType;
 
         public Builder(Class<K> entityIdType, D dataType, Class<F> fieldNameType, Class<V> fieldValueType) {
             super(entityIdType, dataType);
@@ -60,19 +57,6 @@ public final class CreateEntityTaskImpl<K, D, F, V> extends AbstractAddTask<K, D
         }
 
         @Override
-        public Builder<K, D, F, V> withFieldNameType(Class<F> fieldNameType) {
-            Objects.requireNonNull(fieldNameType);
-            this.fieldNameType = fieldNameType;
-            return this;
-        }
-
-        @Override
-        public Builder<K, D, F, V> withFieldValueType(Class<V> fieldValueType) {
-            Objects.requireNonNull(fieldValueType);
-            this.fieldValueType = fieldValueType;
-            return this;
-        }
-
         protected void validate() {
             super.validate();
             if (fieldNameType == null || fieldValueType == null) {

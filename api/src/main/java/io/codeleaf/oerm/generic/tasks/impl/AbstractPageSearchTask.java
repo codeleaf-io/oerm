@@ -1,10 +1,10 @@
 package io.codeleaf.oerm.generic.tasks.impl;
 
 import io.codeleaf.common.utils.Types;
+import io.codeleaf.modeling.selection.Selection;
 import io.codeleaf.oerm.Ordering;
 import io.codeleaf.oerm.SearchPage;
 import io.codeleaf.oerm.generic.tasks.PageSearchTask;
-import io.codeleaf.modeling.selection.Selection;
 
 import java.util.List;
 
@@ -37,20 +37,19 @@ public abstract class AbstractPageSearchTask<D, F, V, H, O extends SearchPage<H>
             V,
             H,
             O extends SearchPage<H>
-            > extends AbstractSearchSelectProjectTask.Builder<B, T, D, F, V, H, O> {
+            > extends AbstractSearchSelectProjectTask.Builder<B, T, D, F, V, H, O>
+            implements PageSearchTask.Builder<B, T, D, F, V, H, O> {
 
         public static final int DEFAULT_LIMIT = 100;
 
         protected long offset;
         protected int limit = DEFAULT_LIMIT;
 
-        public Builder() {
-        }
-
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType, Class<H> searchHitType) {
             super(dataType, fieldNameType, fieldValueType, searchHitType);
         }
 
+        @Override
         public B withOffset(long offset) {
             if (offset < 0) {
                 throw new IllegalArgumentException("Invalid offset!");
@@ -59,6 +58,7 @@ public abstract class AbstractPageSearchTask<D, F, V, H, O extends SearchPage<H>
             return Types.cast(this);
         }
 
+        @Override
         public B withLimit(int limit) {
             if (limit < 1) {
                 throw new IllegalArgumentException("Invalid limit!");
@@ -67,6 +67,7 @@ public abstract class AbstractPageSearchTask<D, F, V, H, O extends SearchPage<H>
             return Types.cast(this);
         }
 
+        @Override
         protected void validate() {
             super.validate();
             if (offset < 0 || limit < 1) {

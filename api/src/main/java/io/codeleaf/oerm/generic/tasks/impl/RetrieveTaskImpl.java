@@ -1,10 +1,9 @@
 package io.codeleaf.oerm.generic.tasks.impl;
 
+import io.codeleaf.modeling.selection.Selection;
 import io.codeleaf.oerm.Ordering;
 import io.codeleaf.oerm.generic.tasks.RetrieveTask;
-import io.codeleaf.modeling.selection.Selection;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,10 +16,8 @@ public final class RetrieveTaskImpl<D, F, V, H> extends AbstractSearchSelectProj
     public static final class Builder<D, F, V, H> extends AbstractSearchSelectProjectTask.Builder<
             Builder<D, F, V, H>,
             RetrieveTaskImpl<D, F, V, H>,
-            D, F, V, H, H> {
-
-        public Builder() {
-        }
+            D, F, V, H, H>
+            implements RetrieveTask.Builder<Builder<D, F, V, H>, RetrieveTaskImpl<D, F, V, H>, D, F, V, H> {
 
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType, Class<H> searchHitType) {
             super(dataType, fieldNameType, fieldValueType, searchHitType);

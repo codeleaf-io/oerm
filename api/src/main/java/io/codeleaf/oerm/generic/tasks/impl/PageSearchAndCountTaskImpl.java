@@ -2,7 +2,9 @@ package io.codeleaf.oerm.generic.tasks.impl;
 
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.oerm.Ordering;
+import io.codeleaf.oerm.SearchCursorAndCount;
 import io.codeleaf.oerm.SearchPageAndCount;
+import io.codeleaf.oerm.generic.tasks.CountTask;
 import io.codeleaf.oerm.generic.tasks.PageSearchAndCountTask;
 import io.codeleaf.modeling.selection.Selection;
 
@@ -20,10 +22,8 @@ public final class PageSearchAndCountTaskImpl<D, F, V, H> extends AbstractPageSe
     public static final class Builder<D, F, V, H> extends AbstractPageSearchTask.Builder<
             Builder<D, F, V, H>,
             PageSearchAndCountTaskImpl<D, F, V, H>,
-            D, F, V, H, SearchPageAndCount<H>> {
-
-        public Builder() {
-        }
+            D, F, V, H, SearchPageAndCount<H>>
+            implements PageSearchAndCountTask.Builder<Builder<D, F, V, H>, PageSearchAndCountTaskImpl<D, F, V, H>, D, F, V, H, SearchPageAndCount<H>> {
 
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType, Class<H> searchHitType) {
             super(dataType, fieldNameType, fieldValueType, searchHitType);
@@ -33,9 +33,9 @@ public final class PageSearchAndCountTaskImpl<D, F, V, H> extends AbstractPageSe
         public PageSearchAndCountTaskImpl<D, F, V, H> build() {
             validate();
             return new PageSearchAndCountTaskImpl<>(
-                    offset, limit, Collections.unmodifiableList(new ArrayList<>(projection)),
+                    offset, limit, List.copyOf(projection),
                     searchHitType, selection, fieldNameType, fieldValueType, dataType,
-                    Collections.unmodifiableList(new ArrayList<>(order)));
+                    List.copyOf(order));
         }
     }
 }

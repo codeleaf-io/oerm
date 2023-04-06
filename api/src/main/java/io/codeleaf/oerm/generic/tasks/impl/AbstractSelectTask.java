@@ -1,25 +1,21 @@
 package io.codeleaf.oerm.generic.tasks.impl;
 
-import io.codeleaf.common.utils.Types;
-import io.codeleaf.oerm.generic.tasks.SelectTask;
 import io.codeleaf.modeling.selection.Selection;
+import io.codeleaf.oerm.generic.tasks.SelectTask;
 
 import java.util.Objects;
 
-public abstract class AbstractSelectTask<D, F, V, O> implements SelectTask<D, F, V, O> {
+public abstract class AbstractSelectTask<D, F, V, O> extends AbstractDataTask<D, O> implements SelectTask<D, F, V, O> {
 
     private final Selection selection;
     private final Class<F> fieldNameType;
     private final Class<V> fieldValueType;
-    private final D dataType;
-    private final Class<O> outputType;
 
     protected AbstractSelectTask(Selection selection, Class<F> fieldNameType, Class<V> fieldValueType, D dataType, Class<O> outputType) {
+        super(dataType, outputType);
         this.selection = selection;
         this.fieldNameType = fieldNameType;
         this.fieldValueType = fieldValueType;
-        this.dataType = dataType;
-        this.outputType = outputType;
     }
 
     @Override
@@ -37,16 +33,6 @@ public abstract class AbstractSelectTask<D, F, V, O> implements SelectTask<D, F,
         return fieldValueType;
     }
 
-    @Override
-    public D getDataType() {
-        return dataType;
-    }
-
-    @Override
-    public Class<O> getOutputType() {
-        return outputType;
-    }
-
     public static abstract class Builder<
             B extends Builder<B, T, D, F, V, O>,
             T extends AbstractSelectTask<D, F, V, O>,
@@ -54,41 +40,17 @@ public abstract class AbstractSelectTask<D, F, V, O> implements SelectTask<D, F,
             F,
             V,
             O
-            > implements SelectTask.Builder<B, T, D, F, V, O> {
+            > extends AbstractDataTask.Builder<B, T, D, O>
+            implements SelectTask.Builder<B, T, D, F, V, O> {
 
-        protected D dataType;
-        protected Class<F> fieldNameType;
-        protected Class<V> fieldValueType;
+        protected final Class<F> fieldNameType;
+        protected final Class<V> fieldValueType;
         protected Selection selection;
 
-        public Builder() {
-        }
-
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType) {
-            this.dataType = dataType;
+            super(dataType);
             this.fieldNameType = fieldNameType;
             this.fieldValueType = fieldValueType;
-        }
-
-        @Override
-        public B withFieldNameType(Class<F> fieldNameType) {
-            Objects.requireNonNull(fieldNameType);
-            this.fieldNameType = fieldNameType;
-            return Types.cast(this);
-        }
-
-        @Override
-        public B withFieldValueType(Class<V> fieldValueType) {
-            Objects.requireNonNull(fieldValueType);
-            this.fieldValueType = fieldValueType;
-            return Types.cast(this);
-        }
-
-        @Override
-        public B withDataType(D dataType) {
-            Objects.requireNonNull(dataType);
-            this.dataType = dataType;
-            return Types.cast(this);
         }
 
         @Override
@@ -100,8 +62,10 @@ public abstract class AbstractSelectTask<D, F, V, O> implements SelectTask<D, F,
             this.selection = selection;
         }
 
+        @Override
         protected void validate() {
-            if (fieldNameType == null || fieldValueType == null || dataType == null || selection == null) {
+            super.validate();
+            if (fieldNameType == null || fieldValueType == null || selection == null) {
                 throw new IllegalStateException();
             }
         }

@@ -28,9 +28,6 @@ public final class UpdateFieldsTaskImpl<D, F, V> extends AbstractSelectTask<D, F
 
         private final Map<F, V> fields = new LinkedHashMap<>();
 
-        public Builder() {
-        }
-
         public Builder(D dataType, Class<F> fieldNameType, Class<V> fieldValueType) {
             super(dataType, fieldNameType, fieldValueType);
         }
@@ -42,6 +39,7 @@ public final class UpdateFieldsTaskImpl<D, F, V> extends AbstractSelectTask<D, F
             return this;
         }
 
+        @Override
         protected void validate() {
             super.validate();
             if (fields.isEmpty()) {
