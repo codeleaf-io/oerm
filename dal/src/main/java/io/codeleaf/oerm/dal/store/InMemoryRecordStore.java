@@ -9,17 +9,17 @@ import io.codeleaf.modeling.task.Task;
 import io.codeleaf.modeling.task.TaskHandlingException;
 import io.codeleaf.oerm.Count;
 import io.codeleaf.oerm.SearchPage;
-import io.codeleaf.oerm.generic.tasks.DataTask;
-import io.codeleaf.oerm.generic.tasks.RetrieveTask;
-import io.codeleaf.oerm.generic.tasks.impl.*;
+import io.codeleaf.oerm.tasks.DataTask;
+import io.codeleaf.oerm.tasks.RetrieveTask;
 import io.codeleaf.oerm.impl.DefaultCount;
 import io.codeleaf.oerm.impl.DefaultSearchPage;
 import io.codeleaf.oerm.record.RecordDataTaskHandler;
+import io.codeleaf.oerm.tasks.impl.*;
 
 import java.util.*;
 
-public final class InMemoryRecordStore implements RecordDataTaskHandler {
-
+public final class InMemoryRecordStore { //implements RecordDataTaskHandler {
+/*
     private final Map<Class<?>, DataTaskHandler<? extends DataTask<String, ?>, ?>> taskHandlers = new HashMap<>();
     private final Map<IdentifierWithType, RecordWithType> records = new HashMap<>();
 
@@ -146,5 +146,5 @@ public final class InMemoryRecordStore implements RecordDataTaskHandler {
                     }
                     return null;
                 });
-    }
+    }*/
 }

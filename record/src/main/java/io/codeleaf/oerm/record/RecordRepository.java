@@ -2,16 +2,16 @@ package io.codeleaf.oerm.record;
 
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.modeling.data.RecordType;
-import io.codeleaf.oerm.generic.Repository;
-import io.codeleaf.oerm.generic.RepositoryTypes;
-import io.codeleaf.oerm.generic.TypedRepositoryImpl;
+import io.codeleaf.oerm.Repository;
+import io.codeleaf.oerm.DataModelTypes;
+import io.codeleaf.oerm.impl.TypedRepositoryImpl;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.RecordWithType;
 import io.codeleaf.modeling.data.ValueWithType;
 
 public interface RecordRepository extends Repository<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> {
 
-    RepositoryTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> GENERIC_TYPES = new RepositoryTypes<>(
+    DataModelTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> GENERIC_TYPES = new DataModelTypes<>(
             RecordWithType.class,
             IdentifierWithType.class,
             String.class,
@@ -20,7 +20,7 @@ public interface RecordRepository extends Repository<RecordWithType, IdentifierW
             RecordType.class);
 
     @Override
-    default RepositoryTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> getGenericTypes() {
+    default DataModelTypes<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> getDataModelTypes() {
         return GENERIC_TYPES;
     }
 

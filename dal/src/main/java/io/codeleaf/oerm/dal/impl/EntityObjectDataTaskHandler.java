@@ -3,11 +3,11 @@ package io.codeleaf.oerm.dal.impl;
 import io.codeleaf.modeling.task.Task;
 import io.codeleaf.modeling.task.TaskHandlingException;
 import io.codeleaf.oerm.entity.EntityDataTaskHandler;
-import io.codeleaf.oerm.generic.tasks.RemoveTask;
+import io.codeleaf.oerm.tasks.RemoveTask;
 import io.codeleaf.oerm.object.ObjectDataTaskHandler;
 
-public final class EntityObjectDataTaskHandler implements ObjectDataTaskHandler {
-
+public final class EntityObjectDataTaskHandler {// implements ObjectDataTaskHandler {
+/*
     private final EntityDataTaskHandler entityTaskHandler;
 
     public EntityObjectDataTaskHandler(EntityDataTaskHandler entityTaskHandler) {
@@ -25,5 +25,5 @@ public final class EntityObjectDataTaskHandler implements ObjectDataTaskHandler 
 
         }
         return null;
-    }
+    }*/
 }

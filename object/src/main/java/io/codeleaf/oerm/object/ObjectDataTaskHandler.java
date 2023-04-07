@@ -1,27 +1,37 @@
 package io.codeleaf.oerm.object;
 
 import io.codeleaf.common.utils.MethodReferences;
-import io.codeleaf.common.utils.Types;
-import io.codeleaf.oerm.generic.DatabaseTaskHandler;
-import io.codeleaf.oerm.generic.RepositoryBridge;
-import io.codeleaf.oerm.generic.RepositoryTypes;
+import io.codeleaf.modeling.task.TaskHandler;
+import io.codeleaf.oerm.handlers.CompositeDatabaseTaskHandler;
+import io.codeleaf.oerm.tasks.DataTask;
+import io.codeleaf.oerm.tasks.DatabaseTask;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
-public interface ObjectDataTaskHandler extends DatabaseTaskHandler<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> {
+public final class ObjectDataTaskHandler extends CompositeDatabaseTaskHandler<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>, ObjectRepository> {
 
-    @Override
-    default RepositoryTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> getGenericTypes() {
-        return ObjectRepository.GENERIC_TYPES;
+    public ObjectDataTaskHandler(Map<Class<? extends DataTask<?, ?>>, Map<Class<? extends Entity>, TaskHandler>> dataTaskHandlers, Map<Class<? extends DatabaseTask<?>>, TaskHandler> taskHandlers, TaskHandler defaultTaskHandler) {
+        super(dataTaskHandlers, taskHandlers, defaultTaskHandler);
     }
 
-    default <D extends Entity> D getFieldNames(Class<D> entityType) {
+    public <D extends Entity> D getFieldNames(Class<D> entityType) {
         return MethodReferences.createProxy(entityType);
     }
 
-    default ObjectRepository toRepository() {
-        return Types.cast(
-                RepositoryBridge.create(getGenericTypes(), this),
-                ObjectRepository.class);
+    public static final class Builder extends CompositeDatabaseTaskHandler.Builder<
+            Builder,
+            ObjectDataTaskHandler,
+            ObjectRepository,
+            Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> {
+
+        public Builder() {
+            super(ObjectRepository.GENERIC_TYPES);
+        }
+
+        @Override
+        public ObjectDataTaskHandler build() {
+            return new ObjectDataTaskHandler(dataTaskHandlers, taskHandlers, defaultTaskHandler);
+        }
     }
 }

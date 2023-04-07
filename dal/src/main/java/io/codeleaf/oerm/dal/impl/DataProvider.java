@@ -5,8 +5,8 @@ import io.codeleaf.modeling.task.TaskHandlingException;
 import io.codeleaf.oerm.entity.EntityDataTaskHandler;
 import io.codeleaf.oerm.record.RecordDataTaskHandler;
 
-public final class DataProvider implements EntityDataTaskHandler {
-
+public final class DataProvider {
+/*
     private final RecordDataTaskHandler handler;
 
     public DataProvider(RecordDataTaskHandler handler) {
@@ -21,5 +21,5 @@ public final class DataProvider implements EntityDataTaskHandler {
     @Override
     public <O> O handleTask(Task<O> task) throws TaskHandlingException {
         return handler.handleTask(task);
-    }
+    }*/
 }

@@ -3,13 +3,13 @@ package io.codeleaf.oerm.entity;
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.ValueWithType;
-import io.codeleaf.oerm.generic.Repository;
-import io.codeleaf.oerm.generic.RepositoryTypes;
-import io.codeleaf.oerm.generic.TypedRepositoryImpl;
+import io.codeleaf.oerm.Repository;
+import io.codeleaf.oerm.DataModelTypes;
+import io.codeleaf.oerm.impl.TypedRepositoryImpl;
 
 public interface EntityRepository extends Repository<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> {
 
-    RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> GENERIC_TYPES = new RepositoryTypes<>(
+    DataModelTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> GENERIC_TYPES = new DataModelTypes<>(
             EntityRecord.class,
             IdentifierWithType.class,
             String.class,
@@ -18,7 +18,7 @@ public interface EntityRepository extends Repository<EntityRecord, IdentifierWit
             EntitySchema.class);
 
     @Override
-    default RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> getGenericTypes() {
+    default DataModelTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> getDataModelTypes() {
         return GENERIC_TYPES;
     }
 

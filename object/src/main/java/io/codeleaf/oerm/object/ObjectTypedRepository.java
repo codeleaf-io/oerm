@@ -1,7 +1,7 @@
 package io.codeleaf.oerm.object;
 
 import io.codeleaf.common.utils.MethodReferences;
-import io.codeleaf.oerm.generic.TypedRepository;
+import io.codeleaf.oerm.TypedRepository;
 
 import java.util.function.Supplier;
 

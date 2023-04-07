@@ -1,22 +1,33 @@
 package io.codeleaf.oerm.entity;
 
-import io.codeleaf.common.utils.Types;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.ValueWithType;
-import io.codeleaf.oerm.generic.DatabaseTaskHandler;
-import io.codeleaf.oerm.generic.RepositoryBridge;
-import io.codeleaf.oerm.generic.RepositoryTypes;
+import io.codeleaf.modeling.task.TaskHandler;
+import io.codeleaf.oerm.handlers.CompositeDatabaseTaskHandler;
+import io.codeleaf.oerm.tasks.DataTask;
+import io.codeleaf.oerm.tasks.DatabaseTask;
 
-public interface EntityDataTaskHandler extends DatabaseTaskHandler<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> {
+import java.util.Map;
 
-    @Override
-    default RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> getGenericTypes() {
-        return EntityRepository.GENERIC_TYPES;
+public final class EntityDataTaskHandler extends CompositeDatabaseTaskHandler<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema, EntityRepository> {
+
+    public EntityDataTaskHandler(Map<Class<? extends DataTask<?, ?>>, Map<String, TaskHandler>> dataTaskHandlers, Map<Class<? extends DatabaseTask<?>>, TaskHandler> taskHandlers, TaskHandler defaultTaskHandler) {
+        super(dataTaskHandlers, taskHandlers, defaultTaskHandler);
     }
 
-    default EntityRepository toRepository() {
-        return Types.cast(
-                RepositoryBridge.create(getGenericTypes(), this),
-                EntityRepository.class);
+    public static final class Builder extends CompositeDatabaseTaskHandler.Builder<
+            Builder,
+            EntityDataTaskHandler,
+            EntityRepository,
+            EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> {
+
+        public Builder() {
+            super(EntityRepository.GENERIC_TYPES);
+        }
+
+        @Override
+        public EntityDataTaskHandler build() {
+            return new EntityDataTaskHandler(dataTaskHandlers, taskHandlers, defaultTaskHandler);
+        }
     }
 }

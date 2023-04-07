@@ -3,15 +3,15 @@ package io.codeleaf.oerm.object;
 import io.codeleaf.common.utils.Interceptor;
 import io.codeleaf.common.utils.MethodReferences;
 import io.codeleaf.common.utils.Types;
-import io.codeleaf.oerm.generic.Repository;
-import io.codeleaf.oerm.generic.RepositoryTypes;
-import io.codeleaf.oerm.generic.TypedRepositoryImpl;
+import io.codeleaf.oerm.Repository;
+import io.codeleaf.oerm.DataModelTypes;
+import io.codeleaf.oerm.impl.TypedRepositoryImpl;
 
 import java.util.function.Supplier;
 
 public interface ObjectRepository extends Repository<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> {
 
-    RepositoryTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> GENERIC_TYPES = new RepositoryTypes<>(
+    DataModelTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> GENERIC_TYPES = new DataModelTypes<>(
             Entity.class,
             Types.cast(Reference.class),
             Types.cast(Class.class),
@@ -20,7 +20,7 @@ public interface ObjectRepository extends Repository<Entity, Reference<Entity>, 
             Types.cast(Class.class));
 
     @Override
-    default RepositoryTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> getGenericTypes() {
+    default DataModelTypes<Entity, Reference<Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> getDataModelTypes() {
         return GENERIC_TYPES;
     }
 
@@ -29,7 +29,7 @@ public interface ObjectRepository extends Repository<Entity, Reference<Entity>, 
     }
 
     default <E extends Entity> ObjectTypedRepository<E> toTypedRepository(Class<E> entityType) {
-        RepositoryTypes<E, Reference<E>, Class<? extends E>, Supplier<?>, Object, Class<E>> repositoryTypes = new RepositoryTypes<>(
+        DataModelTypes<E, Reference<E>, Class<? extends E>, Supplier<?>, Object, Class<E>> repositoryTypes = new DataModelTypes<>(
                 entityType,
                 Types.cast(Reference.class),
                 Types.cast(Class.class),

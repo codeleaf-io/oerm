@@ -4,7 +4,7 @@ import io.codeleaf.modeling.task.Task;
 import io.codeleaf.modeling.task.TaskHandlingException;
 import io.codeleaf.oerm.entity.EntityDataTaskHandler;
 
-public final class DataGovernor implements EntityDataTaskHandler {
+public final class DataGovernor {/* implements EntityDataTaskHandler {
 
     private final DataProvider provider;
 
@@ -20,5 +20,5 @@ public final class DataGovernor implements EntityDataTaskHandler {
     @Override
     public <O> O handleTask(Task<O> task) throws TaskHandlingException {
         return provider.handleTask(task);
-    }
+    }*/
 }

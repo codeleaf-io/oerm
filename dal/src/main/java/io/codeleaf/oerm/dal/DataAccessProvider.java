@@ -61,8 +61,9 @@ public final class DataAccessProvider {
     }
 
     private static DataAccessProvider create() {
-        EntityDataTaskHandler entityHandler = new DataGovernor(new DataProvider(new InMemoryRecordStore()));
-        DataTypeRegistry dataTypeRegistry = new DataTypeMapper();
-        return new DataAccessProvider(new EntityObjectDataTaskHandler(entityHandler), entityHandler, dataTypeRegistry);
+//        EntityDataTaskHandler entityHandler = new DataGovernor(new DataProvider(new InMemoryRecordStore()));
+//        DataTypeRegistry dataTypeRegistry = new DataTypeMapper();
+//        return new DataAccessProvider(new EntityObjectDataTaskHandler(entityHandler), entityHandler, dataTypeRegistry);
+        return null;
     }
 }
