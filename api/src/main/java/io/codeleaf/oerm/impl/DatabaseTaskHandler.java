@@ -7,7 +7,6 @@ import io.codeleaf.modeling.task.TaskHandlingException;
 import io.codeleaf.modeling.task.impl.FunctionTaskHandler;
 import io.codeleaf.modeling.task.impl.ScopedTaskHandler;
 import io.codeleaf.oerm.DataModelTypes;
-import io.codeleaf.oerm.tasks.DataTask;
 import io.codeleaf.oerm.tasks.DatabaseTask;
 import io.codeleaf.oerm.tasks.TypeBasedTask;
 
@@ -57,7 +56,7 @@ public final class DatabaseTaskHandler<E, K, D, F, V, S> implements TaskHandler 
     @Override
     public <OL> OL handleTask(Task<OL> task) throws TaskHandlingException {
         if (task instanceof TypeBasedTask<?, ?, ?, ?, ?, ?, ?>) {
-            DataTask<E, K, D, F, V, S, ?> dataTask = Types.cast(task);
+            TypeBasedTask<E, K, D, F, V, S, ?> dataTask = Types.cast(task);
             if (getDataModelTypes().getDataTypeType().isInstance(dataTask.getDataType())) {
                 D dataType = Types.cast(dataTask.getDataType());
                 Map<D, TaskHandler> taskHandlerMap = typeBasedTaskHandlers.getOrDefault(dataTask.getClass(), Map.of());

@@ -55,6 +55,11 @@ public class DefaultRepository<E, K, D, F, V, S> implements Repository<E, K, D, 
     }
 
     @Override
+    public boolean addDataType(D dataType, S schema) {
+        return handleDataTask(metaTaskBuilderFactory.add().withDataType(dataType).withSchema(schema).build());
+    }
+
+    @Override
     public S getDataSchema(D dataType) {
         return handleDataTask(metaTaskBuilderFactory.get().withDataType(dataType).build());
     }

@@ -19,6 +19,8 @@ public interface Repository<E, K, D, F, V, S> {
 
     D getDataType(E entity);
 
+    boolean addDataType(D dataType, S schema);
+
     S getDataSchema(D dataType);
 
     Selection select(D dataType, K entityId);
