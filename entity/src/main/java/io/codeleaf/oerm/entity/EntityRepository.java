@@ -1,29 +1,32 @@
 package io.codeleaf.oerm.entity;
 
 import io.codeleaf.common.utils.Types;
-import io.codeleaf.oerm.generic.Repository;
-import io.codeleaf.oerm.generic.RepositoryTypes;
-import io.codeleaf.oerm.generic.TypedRepositoryImpl;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.ValueWithType;
+import io.codeleaf.oerm.DataModelTypes;
+import io.codeleaf.oerm.impl.DatabaseTaskHandler;
+import io.codeleaf.oerm.impl.DefaultRepository;
 
-public interface EntityRepository extends Repository<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> {
+public final class EntityRepository
+        extends DefaultRepository<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> {
 
-    RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> GENERIC_TYPES = new RepositoryTypes<>(
+    public static final DataModelTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> GENERIC_TYPES = new DataModelTypes<>(
             EntityRecord.class,
             IdentifierWithType.class,
             String.class,
             String.class,
-            Types.cast(ValueWithType.class));
+            Types.cast(ValueWithType.class),
+            EntitySchema.class);
 
-    @Override
-    default RepositoryTypes<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>> getGenericTypes() {
-        return GENERIC_TYPES;
+    private EntityRepository(DatabaseTaskHandler<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> databaseTaskHandler) {
+        super(null, null, databaseTaskHandler);
     }
 
-    default EntityTypedRepository toTypedRepository(String dataType) {
-        return Types.cast(
-                TypedRepositoryImpl.create(this, dataType),
-                EntityTypedRepository.class);
+    public static EntityRepository of(DatabaseTaskHandler<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> databaseTaskHandler) {
+        return new EntityRepository(databaseTaskHandler);
+    }
+
+    public static DatabaseTaskHandler.Builder<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> createTaskHandler() {
+        return new DatabaseTaskHandler.Builder<>(GENERIC_TYPES);
     }
 }

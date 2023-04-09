@@ -10,7 +10,7 @@ public interface Entity {
 
         UUID getUUID();
 
-        Class<?> getEntityType();
+        Class<? extends Entity> getEntityType();
 
         Set<Reference<Tenant>> getDataSubjects();
 

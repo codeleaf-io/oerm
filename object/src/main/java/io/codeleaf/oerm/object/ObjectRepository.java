@@ -1,37 +1,37 @@
 package io.codeleaf.oerm.object;
 
-import io.codeleaf.common.utils.Interceptor;
 import io.codeleaf.common.utils.MethodReferences;
 import io.codeleaf.common.utils.Types;
-import io.codeleaf.oerm.generic.Repository;
-import io.codeleaf.oerm.generic.RepositoryTypes;
-import io.codeleaf.oerm.generic.TypedRepositoryImpl;
+import io.codeleaf.oerm.DataModelTypes;
+import io.codeleaf.oerm.impl.DatabaseTaskHandler;
+import io.codeleaf.oerm.impl.DefaultRepository;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
-public interface ObjectRepository<E extends Entity> extends Repository<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> {
+public final class ObjectRepository
+        extends DefaultRepository<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> {
 
-    default <D extends E> D getFieldNames(Class<D> entityType) {
-        return MethodReferences.createProxy(entityType);
+    public static final DataModelTypes<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> GENERIC_TYPES = new DataModelTypes<>(
+            Entity.class,
+            Types.cast(Reference.class),
+            Types.cast(Class.class),
+            Types.cast(Supplier.class),
+            Object.class,
+            Types.cast(Class.class));
+
+    public <E extends Entity> E getFieldNames(Class<E> dataType) {
+        return MethodReferences.createProxy(dataType);
     }
 
-    static <E extends Entity> RepositoryTypes<E, Reference<E>, Class<? extends E>, Supplier<?>, Object> createRepositoryTypes(Class<E> entityType) {
-        Objects.requireNonNull(entityType);
-        return new RepositoryTypes<>(
-                entityType,
-                Types.cast(Reference.class),
-                Types.cast(Class.class),
-                Types.cast(Supplier.class),
-                Object.class);
+    private ObjectRepository(DatabaseTaskHandler<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> databaseTaskHandler) {
+        super(null, null, databaseTaskHandler);
     }
 
-    default <S extends E> ObjectTypedRepository<S> toTypedRepository(Class<S> entityType) {
-        RepositoryTypes<S, Reference<S>, Class<? extends S>, Supplier<?>, Object> repositoryTypes = createRepositoryTypes(entityType);
-        ObjectRepository<S> objectRepository = Interceptor.create(Types.cast(ObjectRepository.class), this);
-        Interceptor.intercept(objectRepository, "getGenericTypes", null, (args) -> repositoryTypes);
-        return Types.cast(
-                TypedRepositoryImpl.create(objectRepository, entityType),
-                Types.cast(ObjectTypedRepository.class));
+    public static ObjectRepository of(DatabaseTaskHandler<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> databaseTaskHandler) {
+        return new ObjectRepository(databaseTaskHandler);
+    }
+
+    public static DatabaseTaskHandler.Builder<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> createTaskHandler() {
+        return new DatabaseTaskHandler.Builder<>(GENERIC_TYPES);
     }
 }
