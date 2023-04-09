@@ -2,6 +2,7 @@ package io.codeleaf.oerm;
 
 import io.codeleaf.modeling.selection.Selection;
 import io.codeleaf.modeling.selection.SelectionBuilder;
+import io.codeleaf.oerm.*;
 
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +23,7 @@ public interface Repository<E, K, D, F, V, S> {
 
     Selection select(D dataType, K entityId);
 
-    K add(E entity);
+    K add(D dataType, E entity);
 
     K create(D dataType, Map<F, V> fields);
 
@@ -44,7 +45,7 @@ public interface Repository<E, K, D, F, V, S> {
 
     SearchPageAndCount<E> searchAndCount(D dataType, Selection selection, long offset, int limit);
 
-    void update(E entity);
+    void update(D dataType, E entity);
 
     long update(D dataType, Selection selection, Map<F, V> fields);
 

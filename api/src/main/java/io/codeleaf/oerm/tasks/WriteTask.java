@@ -1,4 +1,4 @@
 package io.codeleaf.oerm.tasks;
 
-public interface WriteTask<D, O> extends DataTask<D, O> {
+public interface WriteTask<E, K, D, F, V, S, O> extends DatabaseTask<E, K, D, F, V, S, O> {
 }

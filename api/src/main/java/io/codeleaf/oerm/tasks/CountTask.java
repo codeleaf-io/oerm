@@ -2,20 +2,12 @@ package io.codeleaf.oerm.tasks;
 
 import io.codeleaf.oerm.Count;
 
-public interface CountTask<D, F, V, O extends Count>
-        extends
-        SelectTask<D, F, V, O>,
-        ReadTask<D, O> {
+public interface CountTask<E, K, D, F, V, S, O extends Count> extends ReadTask<E, K, D, F, V, S, O> {
 
     interface Builder<
-            B extends Builder<B, T, D, F, V, O>,
-            T extends CountTask<D, F, V, O>,
-            D,
-            F,
-            V,
-            O extends Count>
-            extends
-            SelectTask.Builder<B, T, D, F, V, O>,
-            ReadTask.Builder<B, T, D, O> {
+            B extends Builder<B, T, E, K, D, F, V, S, O>,
+            T extends CountTask<E, K, D, F, V, S, O>,
+            E, K, D, F, V, S, O extends Count>
+            extends ReadTask.Builder<B, T, E, K, D, F, V, S, O> {
     }
 }

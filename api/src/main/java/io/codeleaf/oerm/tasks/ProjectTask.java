@@ -7,19 +7,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public interface ProjectTask<D, F, O> extends ReadTask<D, O> {
+public interface ProjectTask<E, K, D, F, V, S, O> extends DatabaseTask<E, K, D, F, V, S, O> {
 
     List<F> getProjection();
 
-    Class<F> getFieldNameType();
-
     interface Builder<
-            B extends Builder<B, T, D, F, O>,
-            T extends ProjectTask<D, F, O>,
-            D,
-            F,
-            O>
-            extends ReadTask.Builder<B, T, D, O> {
+            B extends Builder<B, T, E, K, D, F, V, S, O>,
+            T extends ProjectTask<E, K, D, F, V, S, O>,
+            E, K, D, F, V, S, O>
+            extends ReadTask.Builder<B, T, E, K, D, F, V, S, O> {
 
         @SuppressWarnings("unchecked")
         default B withProjections(F... projection) {

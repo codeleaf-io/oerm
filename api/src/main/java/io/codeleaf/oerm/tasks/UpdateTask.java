@@ -1,4 +1,4 @@
 package io.codeleaf.oerm.tasks;
 
-public interface UpdateTask<D, O> extends WriteTask<D, O> {
+public interface UpdateTask<E, K, D, F, V, S, O> extends WriteTask<E, K, D, F, V, S, O> {
 }

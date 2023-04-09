@@ -2,18 +2,15 @@ package io.codeleaf.oerm.tasks;
 
 import io.codeleaf.oerm.SearchCursor;
 
-public interface IterateTask<D, F, H, O extends SearchCursor<H>> extends SearchTask<D, F, H, O> {
+public interface IterateTask<E, K, D, F, V, S, O extends SearchCursor<E>> extends ListTask<E, K, D, F, V, S, O> {
 
     int getBufferSize();
 
     interface Builder<
-            B extends Builder<B, T, D, F, H, O>,
-            T extends IterateTask<D, F, H, O>,
-            D,
-            F,
-            H,
-            O extends SearchCursor<H>>
-            extends SearchTask.Builder<B, T, D, F, H, O> {
+            B extends Builder<B, T, E, K, D, F, V, S, O>,
+            T extends IterateTask<E, K, D, F, V, S, O>,
+            E, K, D, F, V, S, O extends SearchCursor<E>>
+            extends ListTask.Builder<B, T, E, K, D, F, V, S, O> {
 
         B withBufferSize(int bufferSize);
     }
