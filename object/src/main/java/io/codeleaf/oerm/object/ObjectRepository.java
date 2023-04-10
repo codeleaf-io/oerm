@@ -33,7 +33,7 @@ public final class ObjectRepository
         return new ObjectRepository(databaseTaskHandler);
     }
 
-    public static DatabaseTaskHandler.Builder<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> createTaskHandler() {
-        return new DatabaseTaskHandler.Builder<>(GENERIC_TYPES);
+    public static DatabaseTaskHandler.Builder<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>, ObjectRepository> builder() {
+        return DatabaseTaskHandler.Builder.create(GENERIC_TYPES, ObjectRepository::of);
     }
 }

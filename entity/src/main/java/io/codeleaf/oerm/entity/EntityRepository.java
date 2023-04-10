@@ -26,7 +26,7 @@ public final class EntityRepository
         return new EntityRepository(databaseTaskHandler);
     }
 
-    public static DatabaseTaskHandler.Builder<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema> createTaskHandler() {
-        return new DatabaseTaskHandler.Builder<>(GENERIC_TYPES);
+    public static DatabaseTaskHandler.Builder<EntityRecord, IdentifierWithType, String, String, ValueWithType<?>, EntitySchema, EntityRepository> builder() {
+        return DatabaseTaskHandler.Builder.create(GENERIC_TYPES, EntityRepository::of);
     }
 }

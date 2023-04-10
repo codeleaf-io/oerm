@@ -34,7 +34,7 @@ public final class RecordRepository
         return new RecordRepository(DATA_TASK_BUILDER_FACTORY, META_TASK_BUILDER_FACTORY, databaseTaskHandler);
     }
 
-    public static DatabaseTaskHandler.Builder<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType> createTaskHandler() {
-        return new DatabaseTaskHandler.Builder<>(GENERIC_TYPES);
+    public static DatabaseTaskHandler.Builder<RecordWithType, IdentifierWithType, String, String, ValueWithType<?>, RecordType, RecordRepository> builder() {
+        return DatabaseTaskHandler.Builder.create(GENERIC_TYPES, RecordRepository::of);
     }
 }
