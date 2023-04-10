@@ -24,7 +24,7 @@ public final class RecordCursorSearchTask extends GenericCursorSearchTask<Record
         }
 
         @Override
-        public GenericCursorSearchTask build() {
+        public RecordCursorSearchTask build() {
             validate();
             return new RecordCursorSearchTask(dataType, selection, order, projection, bufferSize);
         }

@@ -5,6 +5,8 @@ import io.codeleaf.common.utils.Types;
 import io.codeleaf.oerm.DataModelTypes;
 import io.codeleaf.oerm.impl.DatabaseTaskHandler;
 import io.codeleaf.oerm.impl.DefaultRepository;
+import io.codeleaf.oerm.object.tasks.data.ObjectDataTaskBuilderFactory;
+import io.codeleaf.oerm.object.tasks.meta.ObjectMetaTaskBuilderFactory;
 
 import java.util.function.Supplier;
 
@@ -24,7 +26,7 @@ public final class ObjectRepository
     }
 
     private ObjectRepository(DatabaseTaskHandler<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> databaseTaskHandler) {
-        super(null, null, databaseTaskHandler);
+        super(new ObjectDataTaskBuilderFactory(), new ObjectMetaTaskBuilderFactory(), databaseTaskHandler);
     }
 
     public static ObjectRepository of(DatabaseTaskHandler<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> databaseTaskHandler) {
