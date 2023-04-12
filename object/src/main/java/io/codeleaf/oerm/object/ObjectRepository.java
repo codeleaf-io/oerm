@@ -21,16 +21,20 @@ public final class ObjectRepository
             Object.class,
             Types.cast(Class.class));
 
+    public static final ObjectDataTaskBuilderFactory DATA_TASK_BUILDER_FACTORY = new ObjectDataTaskBuilderFactory();
+
+    public static final ObjectMetaTaskBuilderFactory META_TASK_BUILDER_FACTORY = new ObjectMetaTaskBuilderFactory();
+
     public <E extends Entity> E getFieldNames(Class<E> dataType) {
         return MethodReferences.createProxy(dataType);
     }
 
-    private ObjectRepository(DatabaseTaskHandler<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> databaseTaskHandler) {
-        super(new ObjectDataTaskBuilderFactory(), new ObjectMetaTaskBuilderFactory(), databaseTaskHandler);
+    private ObjectRepository(ObjectDataTaskBuilderFactory dataTaskBuilderFactory, ObjectMetaTaskBuilderFactory metaTaskBuilderFactory, DatabaseTaskHandler<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> databaseTaskHandler) {
+        super(dataTaskBuilderFactory, metaTaskBuilderFactory, databaseTaskHandler);
     }
 
     public static ObjectRepository of(DatabaseTaskHandler<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>> databaseTaskHandler) {
-        return new ObjectRepository(databaseTaskHandler);
+        return new ObjectRepository(DATA_TASK_BUILDER_FACTORY, META_TASK_BUILDER_FACTORY, databaseTaskHandler);
     }
 
     public static DatabaseTaskHandler.Builder<Entity, Reference<? extends Entity>, Class<? extends Entity>, Supplier<?>, Object, Class<? extends Entity>, ObjectRepository> builder() {
