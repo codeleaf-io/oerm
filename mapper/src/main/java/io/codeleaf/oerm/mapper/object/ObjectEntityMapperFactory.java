@@ -2,7 +2,7 @@ package io.codeleaf.oerm.mapper.object;
 
 import io.codeleaf.common.utils.Methods;
 import io.codeleaf.oerm.entity.EntitySchema;
-import io.codeleaf.oerm.entity.EntitySchemaProvider;
+import io.codeleaf.oerm.mapper.entity.EntitySchemaProvider;
 import io.codeleaf.oerm.object.Entity;
 import io.codeleaf.oerm.object.mapping.Optional;
 import io.codeleaf.oerm.object.mapping.*;

@@ -3,7 +3,7 @@ package io.codeleaf.oerm.mapper.object;
 import io.codeleaf.common.utils.Types;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.oerm.entity.EntityRecord;
-import io.codeleaf.oerm.mapper.entity.EntityMeta;
+import io.codeleaf.oerm.entity.impl.EntityMeta;
 import io.codeleaf.oerm.object.Entity;
 import io.codeleaf.oerm.object.Reference;
 import io.codeleaf.oerm.object.Tenant;
@@ -57,7 +57,7 @@ public final class ObjectMetaMapper {
                 mapFromObject(objectMeta.getDataSubjects()),
                 mapFromObject(objectMeta.getLegalOwner()),
                 mapFromObject(objectMeta.getDataSteward()),
-                mapFromObject(objectMeta.getPartition()));
+                mapFromObject(objectMeta.getPartition()), null);
     }
 
     private IdentifierWithType mapFromObject(Reference<? extends Tenant> reference) {

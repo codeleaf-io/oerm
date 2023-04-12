@@ -2,7 +2,6 @@ package io.codeleaf.oerm.dal.impl;
 
 import io.codeleaf.oerm.dal.DataTypeRegistry;
 import io.codeleaf.oerm.entity.EntitySchema;
-import io.codeleaf.oerm.entity.EntitySchemaProvider;
 import io.codeleaf.oerm.object.Entity;
 
 import java.util.LinkedHashMap;

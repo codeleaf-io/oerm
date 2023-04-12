@@ -3,6 +3,7 @@ package io.codeleaf.oerm.entity;
 import io.codeleaf.modeling.data.IdentifierWithType;
 import io.codeleaf.modeling.data.RecordWithType;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -45,5 +46,26 @@ public final class EntityRecord {
         IdentifierWithType getDataSteward();
 
         List<IdentifierWithType> getPartition();
+
+        Source getSource();
+    }
+
+    public interface Source {
+
+        String getSystemName();
+
+        String getSystemId();
+
+        String getLocalId();
+
+        URI getURI();
+
+        Long getCreationTime();
+
+        Long getUpdationTime();
+
+        Long getReadTime();
+
+        Integer getVersion();
     }
 }
